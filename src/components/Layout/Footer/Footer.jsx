@@ -11,15 +11,15 @@ const teamMembers = [
   {
     id: 2,
     nombre: "Paula López",
-    rol: "Directora de Relaciones Institucionales y Contenido",
-    bio: "Especialista en comunicación y apasionada de la literatura. Se encarga de la curaduría del catálogo y de tender puentes con la comunidad. Tiene el talento innato de contagiar su amor por la lectura a cualquiera que se cruce en su camino.",
+    rol: "Responsable de Comunicación y Catálogo",
+    bio: "Estudiante de Relaciones Públicas y lectora apasionada. Se encarga de la atención, la curaduría de los títulos y de la comunicación con los lectores. Tiene el talento innato de recomendar el libro indicado y contagiar su amor por la lectura.",
     iniciales: "PL",
   },
   {
     id: 3,
     nombre: "Bárbara Capristo",
-    rol: "Coordinadora de Gestión y Relaciones Internacionales",
-    bio: "Estudiante de profesorado de inglés y pieza clave en la organización del equipo. Aunque prefiere la música y la cultura pop antes que los libros, aporta la estructura, el análisis y la disciplina necesaria para que Nocturna funcione a la perfección.",
+    rol: "Coordinadora de Gestión y Administración",
+    bio: "Estudiante de profesorado de inglés y encargada de la organización interna del local. Aunque prefiere la música y la cultura pop antes que los libros, aporta la estructura, el orden y la energía necesaria para que el día a día de Nocturna funcione a la perfección.",
     iniciales: "BC",
   },
 ];

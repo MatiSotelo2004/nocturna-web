@@ -11,3 +11,9 @@
   --font-sans: "DM Sans", sans-serif;
   --font-titulo: "Playfair Display", serif;
 }
+
+@layer base{
+  body{
+    @apply text-text-primary;
+  }
+}
