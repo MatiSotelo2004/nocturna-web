@@ -45,12 +45,12 @@ export default function ItemDetailContainer() {
     }
   };
 
-  const {addToCart} = useCart();
+  const { addToCart } = useCart();
 
-  const handleAddToCart = ()=>{
+  const handleAddToCart = () => {
     addToCart(producto, cantidad);
-    alert("Agregaste un producto")
-  }
+    alert(`Agregaste ${cantidad} ${cantidad > 1 ? "copias":"copia"} de "${producto.titulo}"`);
+  };
 
   if (cargando) {
     return (
@@ -86,7 +86,11 @@ export default function ItemDetailContainer() {
       </nav>
 
       <div className="flex gap-8">
-        <img src={producto.imagen} alt={producto.titulo} className="min-w-sm rounded-lg shadow-accent-secondary/20 shadow-2xl" />
+        <img
+          src={producto.imagen}
+          alt={producto.titulo}
+          className="min-w-sm rounded-lg shadow-accent-secondary/20 shadow-2xl"
+        />
         <div className="flex flex-col">
           <div className="flex gap-2 text-text-secondary capitalize">
             <span>{producto.tipo}</span>
@@ -101,11 +105,71 @@ export default function ItemDetailContainer() {
                 ? `${producto.stock} unidades disponibles`
                 : "Sin stock"}
             </p>
-            <p className="text-4xl text-accent-primary">
-              ${producto.precio}
-            </p>
-            <button onClick={handleAddToCart} className="bg-accent-primary py-3 px-10 rounded-full mt-5 hover:bg-yellow-200 hover:text-secondary hover:scale-105 transition-all transform duration-300">COMPRAR</button>
-
+            <p className="text-4xl text-accent-primary">${producto.precio}</p>
+            <div className="mt-4 flex gap-5 items-center">
+              <button className="cursor-pointer" onClick={decrementar}>
+                <svg
+                  width="30px"
+                  height="30px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="#ffffff"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      d="M6 12L18 12"
+                      stroke="#ffffff"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>{" "}
+                  </g>
+                </svg>
+              </button>
+              <p className="text-2xl">{cantidad}</p>
+              <button
+                className="cursor-pointer" onClick={incrementar}
+              >
+                <svg
+                  width="30px"
+                  height="30px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      d="M6 12H18M12 6V18"
+                      stroke="#ffffff"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>{" "}
+                  </g>
+                </svg>
+              </button>
+            </div>
+            <button
+              onClick={handleAddToCart}
+              className="bg-accent-primary py-3 px-10 rounded-full mt-5 hover:bg-yellow-200 hover:text-secondary hover:scale-105 transition-all transform duration-300"
+            >
+              COMPRAR
+            </button>
           </div>
         </div>
       </div>

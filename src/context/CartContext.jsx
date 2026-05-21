@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext } from "react";
+import { useContext, useState, createContext, useEffect } from "react";
 
 export const CartContext = createContext();
 
@@ -11,7 +11,13 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    // USA localStorage PARA RECUPERAR EL CARRITO
+    const localData = localStorage.getItem("carrito");
+    return localData ? JSON.parse(localData) : [];
+  });
+
+  // FUNCION AÑADIR AL CARRITO
   const addToCart = (product, quantity) => {
     const itemInCart = cart.find((item) => item.id === product.id);
     if (itemInCart) {
@@ -28,17 +34,31 @@ export const CartProvider = ({ children }) => {
   const clearCart = () => {
     setCart([]);
   };
-
+  
+  // FUNCION PARA OBTENER ITEMS TOTALES
   const getCartQuantity = () => {
     return cart.reduce((acc, item) => acc + item.quantity, 0);
   };
+
+  // FUNCION PARA OBTENER PRECIO TOTAL
   const getCartTotal = () => {
     return cart.reduce((acc, item) => acc + item.precio * item.quantity, 0);
   };
 
+  // GUARDA CARRITO EN localStorage
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(cart));
+  }, [cart]);
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, clearCart, getCartQuantity, getCartTotal }}
+      value={{
+        cart,
+        addToCart,
+        clearCart,
+        getCartQuantity,
+        getCartTotal,
+      }}
     >
       {children}
     </CartContext.Provider>

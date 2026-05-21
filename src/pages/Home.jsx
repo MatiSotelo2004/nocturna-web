@@ -50,7 +50,7 @@ export default function Home() {
 
           <h1 className="font-serif text-5xl md:text-7xl mb-6 max-w-3xl">
             Historias que esperan{" "}
-            <em className="text-accent-primary not-italic">la noche</em>
+            <em className="text-accent-primary">la noche</em>
           </h1>
 
           <p className="text-text-secondary text-lg max-w-xl mb-10">
@@ -104,16 +104,11 @@ export default function Home() {
         <h2 className="font-serif text-3xl mb-6 max-w-xl mx-auto">
           Un espacio para los que leen cuando el mundo duerme
         </h2>
-        <p className="text-text-secondary text-sm max-w-lg mx-auto mb-8">
+        <p className="text-text-secondary text-sm max-w-lg mx-auto">
           Seleccionamos cada título con cuidado. Desde clásicos atemporales
           hasta los mangas más aclamados, Nocturna es tu librería de cabecera.
         </p>
-        <Link
-          to="/sobre-nosotros"
-          className="text-sm text-accent-primary hover:underline transition-colors"
-        >
-          Conocé nuestro equipo →
-        </Link>
+        
       </section>
     </>
   );

@@ -29,11 +29,11 @@ function Footer() {
     <footer className="bg-primary items-center text-text-secondary p-9">
       {/* SOBRE NOSOTROS */}
       <div className="pb-6">
-        <h2 className="text-2xl text-accent-primary font-titulo tracking-widest">
+        <h2 className="text-2xl text-accent-primary font-titulo tracking-widest text-center md:text-left">
           NOCTURNA
         </h2>
-        <div className="flex justify-between items-center font-sans text-sm">
-          <p className="max-w-2xl ">
+        <div className="flex flex-col gap-3 justify-between items-center font-sans text-sm md:flex-row">
+          <p className="max-w-96 text-center lg:max-w-2xl md:text-left">
             Somos una librería online especializada en literatura de fantasía,
             terror, thriller y manga. Nacimos en 2026 con una misión simple:
             poner el libro perfecto en las manos correctas.

@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import CartWidget from "./CartWidget";
 
 export default function Header() {
   const linkClass = "hover:text-accent-primary transition-all duration-300";
 
   return (
-    <header className="bg-primary flex justify-between items-center p-6 sticky top-0 z-50">
+    <header className="bg-primary flex gap-3 flex-col justify-between items-center p-6 sticky top-0 z-50 md:flex-row">
       <Link to={"/"}>
         <span className="text-accent-primary font-titulo tracking-widest text-4xl">
           NOCTURNA
@@ -30,7 +31,7 @@ export default function Header() {
           </li>
         </ul>
       </nav>
-      <Link to={"/carrito"} className="mr-6">Carrito</Link>
+      <CartWidget/>
     </header>
   );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
@@ -42,9 +41,7 @@ export default function Cart() {
   return (
     <>
       <section className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="font-serif text-3xl mb-10">
-          Carrito de compras
-        </h1>
+        <h1 className="font-serif text-3xl mb-10">Carrito de compras</h1>
 
         <div className="flex flex-col gap-4 mb-10">
           {cart.map((item) => (
@@ -52,18 +49,14 @@ export default function Cart() {
               key={item.id}
               className="flex items-center gap-6 bg-primary/20 border border-mist-800 rounded-lg p-4"
             >
-  
               <img
                 src={item.imagen}
                 alt={item.titulo}
                 className="w-16 h-24 object-cover rounded"
               />
 
-              
               <div className="flex-1">
-                <h3 className="font-serif text-sm mb-1">
-                  {item.titulo}
-                </h3>
+                <h3 className="font-serif text-sm mb-1">{item.titulo}</h3>
                 <p className="text-mist-600 text-xs mb-2">{item.autor}</p>
                 <p className="text-text-secondary text-xs">
                   Cantidad: {item.quantity}
@@ -76,22 +69,29 @@ export default function Cart() {
           ))}
         </div>
 
-        
         <div className="border-t border-mist-800 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-text-secondary text-sm mb-1">Total</p>
-            
-            <p className="font-serif text-3xl text-accent-primary">${getCartTotal()}</p>
+
+            <p className="font-serif text-3xl text-accent-primary">
+              ${getCartTotal()}
+            </p>
           </div>
 
           <div className="flex gap-3">
             <button
-              onClick={clearCart} 
+              onClick={clearCart}
               className="cursor-pointer text-sm text-text-secondary border border-mist-800 px-4 py-2 rounded hover:border-accent-secondary hover:text-accent-secondary transition-colors"
             >
               Vaciar carrito
             </button>
-            <button className="cursor-pointer bg-accent-primary text-black text-sm font-medium px-6 py-2 rounded hover:bg-amber-300 transition-colors">
+            <button
+              className="cursor-pointer bg-accent-primary text-black text-sm font-medium px-6 py-2 rounded hover:bg-amber-300 transition-colors"
+              onClick={() => {
+                alert("¡Gracias por su compra!");
+                clearCart();
+              }}
+            >
               Finalizar compra
             </button>
           </div>

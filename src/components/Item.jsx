@@ -25,7 +25,7 @@ export default function Item({
 
   const handleAddToCart = () => {
     addToCart(producto, 1);
-    alert("Agregaste un producto");
+    alert(`Agregaste 1 copia de "${producto.titulo}"`);
   };
 
   return (
