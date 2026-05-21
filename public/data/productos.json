@@ -56,7 +56,7 @@
     "calificacion": 4.9,
     "genero": "Fantasía",
     "tipo": "libro",
-    "imagen": "https://covers.openlibrary.org/b/isbn/9780756404741-L.jpg",
+    "imagen": "/images/elnombredelviento.jpg",
     "stock": 10
   },
   {
@@ -68,7 +68,7 @@
     "calificacion": 5.0,
     "genero": "Fantasía",
     "tipo": "libro",
-    "imagen": "https://covers.openlibrary.org/b/isbn/9780618574940-L.jpg",
+    "imagen": "/images/lordoftherings.jpg",
     "stock": 9
   },
   {
@@ -80,7 +80,7 @@
     "calificacion": 4.8,
     "genero": "Fantasía",
     "tipo": "libro",
-    "imagen": "https://covers.openlibrary.org/b/isbn/9780553573404-L.jpg",
+    "imagen": "/images/gameofthrones.webp",
     "stock": 7
   },
   {
@@ -92,7 +92,7 @@
     "calificacion": 4.9,
     "genero": "Ciencia Ficción",
     "tipo": "libro",
-    "imagen": "https://covers.openlibrary.org/b/isbn/9780553293357-L.jpg",
+    "imagen": "/images/fundacion.webp",
     "stock": 11
   },
   {

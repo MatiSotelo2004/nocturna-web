@@ -30,7 +30,7 @@ export default function Header() {
           </li>
         </ul>
       </nav>
-      <p className="mr-6">Carrito</p>
+      <Link to={"/carrito"} className="mr-6">Carrito</Link>
     </header>
   );
 }
