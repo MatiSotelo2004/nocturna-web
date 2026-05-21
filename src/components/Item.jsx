@@ -52,7 +52,6 @@ export default function Item({
         </h3>
         <p className="text-xs text-gray-500 mb-3">{autor}</p>
 
-        {/* Precio y boton */}
 
         <span className="text-accent-primary font-medium text-sm">
           ${precio.toLocaleString("es-AR")}
@@ -60,7 +59,7 @@ export default function Item({
 
         <button
           onClick={handleAddToCart}
-          className="bg-accent-primary py-2 rounded-4xl mt-3 font-bold hover:bg-amber-200 hover:text-secondary transition-colors duration-200"
+          className="bg-accent-primary py-2 rounded-4xl mt-3 font-bold hover:bg-amber-200 hover:text-secondary transition-colors duration-200 cursor-pointer"
         >
           Comprar
         </button>
