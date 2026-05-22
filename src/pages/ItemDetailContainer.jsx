@@ -49,7 +49,9 @@ export default function ItemDetailContainer() {
 
   const handleAddToCart = () => {
     addToCart(producto, cantidad);
-    alert(`Agregaste ${cantidad} ${cantidad > 1 ? "copias":"copia"} de "${producto.titulo}"`);
+    alert(
+      `Agregaste ${cantidad} ${cantidad > 1 ? "copias" : "copia"} de "${producto.titulo}"`,
+    );
   };
 
   if (cargando) {
@@ -74,7 +76,7 @@ export default function ItemDetailContainer() {
   }
   return (
     <section className="max-w-5xl mx-auto px-6 py-12">
-      <nav className="text-xs text-text-secondary mb-8 flex items-center gap-2">
+      <nav className="text-xs text-text-secondary mb-8 flex items-center gap-2 justify-center md:justify-normal">
         <Link
           to="/productos"
           className="hover:text-accent-primary transition-colors"
@@ -85,14 +87,14 @@ export default function ItemDetailContainer() {
         <span className="text-text-secondary">{producto.titulo}</span>
       </nav>
 
-      <div className="flex gap-8">
+      <div className="flex flex-col items-center text-center gap-8 md:text-left md:flex-row md:items-start">
         <img
           src={producto.imagen}
           alt={producto.titulo}
-          className="min-w-sm rounded-lg shadow-accent-secondary/20 shadow-2xl"
+          className="w-50 md:min-w-sm rounded-lg shadow-accent-secondary/20 shadow-2xl"
         />
         <div className="flex flex-col">
-          <div className="flex gap-2 text-text-secondary capitalize">
+          <div className="flex gap-2 text-text-secondary capitalize mb-3 justify-center md:justify-normal md:mb-0">
             <span>{producto.tipo}</span>
             <span>|</span>
             <span>{producto.genero}</span>
@@ -135,9 +137,7 @@ export default function ItemDetailContainer() {
                 </svg>
               </button>
               <p className="text-2xl">{cantidad}</p>
-              <button
-                className="cursor-pointer" onClick={incrementar}
-              >
+              <button className="cursor-pointer" onClick={incrementar}>
                 <svg
                   width="30px"
                   height="30px"
@@ -168,7 +168,7 @@ export default function ItemDetailContainer() {
               onClick={handleAddToCart}
               className="bg-accent-primary py-3 px-10 rounded-full mt-5 hover:bg-yellow-200 hover:text-secondary hover:scale-105 transition-all transform duration-300"
             >
-              COMPRAR
+              Agregar al carrito
             </button>
           </div>
         </div>
