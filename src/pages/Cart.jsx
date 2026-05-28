@@ -6,7 +6,7 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <section className="flex flex-col items-center justify-center min-h-[70vh] gap-6 px-6">
+      <section className="flex flex-col items-center justify-center min-h-[70vh] gap-6 px-6 transicion-pagina">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-16 w-16 text-mist-700"
@@ -40,7 +40,7 @@ export default function Cart() {
   }
   return (
     <>
-      <section className="max-w-4xl mx-auto px-6 py-12">
+      <section className="max-w-4xl mx-auto px-6 py-12 transicion-pagina">
         <h1 className="font-serif text-3xl mb-10">Carrito de compras</h1>
 
         <div className="flex flex-col gap-4 mb-10">
