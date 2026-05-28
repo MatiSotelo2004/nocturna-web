@@ -23,7 +23,7 @@ export default function AboutUs() {
       <section className="relative py-24 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-b from-secondary to-primary" />
 
-        <div className="relative max-w-3xl mx-auto text-center">
+        <div className="relative max-w-3xl mx-auto text-center transicion-pagina">
           <p className="text-xs tracking-[4px] text-accent-primary uppercase mb-6">
             ✦ Quiénes somos
           </p>
@@ -43,7 +43,7 @@ export default function AboutUs() {
       </section>
 
       {/* ── HISTORIA ── */}
-      <section className="max-w-4xl mx-auto px-6 py-12">
+      <section className="max-w-4xl mx-auto px-6 py-12 transicion-pagina-horizontal">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-12  items-center">
           <div>
             <p className="text-xs tracking-[3px] text-accent-primary uppercase mb-4">

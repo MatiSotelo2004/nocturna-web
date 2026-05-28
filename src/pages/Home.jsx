@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     fetch("/data/productos.json")
       .then((respuesta) => {
-        if (!respuesta) {
+        if (!respuesta.ok) {
           throw new Error("No se pudo cargar los productos");
         }
         return respuesta.json();
@@ -43,7 +43,7 @@ export default function Home() {
         {/* Fondo con gradiente */}
         <div className="absolute inset-0 bg-linear-to-br from-[#1c0a0a] via-secondary to-[#0a0a1c]" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-24">
+        <div className="relative max-w-7xl mx-auto px-6 py-24 transicion-pagina">
           <p className="text-xs tracking-[4px] text-accent-primary mb-6">
             ✦ TU PRÓXIMA HISTORIA FAVORITA TE ESPERA
           </p>

@@ -52,7 +52,7 @@ function Footer() {
         <h3 className="text-accent-primary text-lg text-center mb-6 ">
           NUESTRO EQUIPO
         </h3>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {teamMembers.map((member) => (
             <TeamCard key={member.id} {...member} />
           ))}

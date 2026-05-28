@@ -75,7 +75,7 @@ export default function ItemDetailContainer() {
     );
   }
   return (
-    <section className="max-w-5xl mx-auto px-6 py-12">
+    <section className="max-w-5xl mx-auto px-6 py-12 transicion-pagina">
       <nav className="text-xs text-text-secondary mb-8 flex items-center gap-2 justify-center md:justify-normal">
         <Link
           to="/productos"

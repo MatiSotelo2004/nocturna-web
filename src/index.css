@@ -17,3 +17,21 @@
     @apply text-text-primary;
   }
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.transicion-pagina {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeInHorizontal {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.transicion-pagina-horizontal {
+  animation: fadeInHorizontal 1s ease-out forwards;
+}

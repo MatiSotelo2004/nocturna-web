@@ -29,7 +29,7 @@ export default function Item({
   };
 
   return (
-    <div className="bg-primary/50 border-2 border-text-secondary/10 rounded-lg flex flex-col overflow-hidden hover:border-accent-secondary/30 hover:shadow-accent-secondary/30 hover:shadow-2xl hover:scale-105 transition-all duration-400">
+    <div className="transicion-pagina bg-primary/50 border-2 border-text-secondary/10 rounded-lg flex flex-col overflow-hidden hover:border-accent-secondary/30 hover:shadow-accent-secondary/30 hover:shadow-2xl hover:scale-105 transition-all duration-400">
       {/* PORTADA */}
       <Link to={`/producto/${id}`}>
         <div className="relative aspect-2/3 overflow-hidden">
