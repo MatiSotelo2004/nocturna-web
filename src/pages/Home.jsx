@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Item from "../components/Item";
 import { Link } from "react-router-dom";
+import { getProducts } from "../services/productsServices";
 
 export default function Home() {
   const [error, setError] = useState(null);
@@ -8,13 +9,7 @@ export default function Home() {
   const [destacados, setDestacados] = useState([]);
 
   useEffect(() => {
-    fetch("/data/productos.json")
-      .then((respuesta) => {
-        if (!respuesta.ok) {
-          throw new Error("No se pudo cargar los productos");
-        }
-        return respuesta.json();
-      })
+    getProducts()
       .then((prod) => {
         const mejores = [...prod]
           .sort((a, b) => b.calificacion - a.calificacion)

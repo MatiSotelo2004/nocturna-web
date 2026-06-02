@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { getProductById } from "../services/productsServices";
 
 export default function ItemDetailContainer() {
   const { id } = useParams();
@@ -11,19 +12,9 @@ export default function ItemDetailContainer() {
   const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
-    fetch("/data/productos.json")
-      .then((respuesta) => {
-        if (!respuesta.ok) {
-          throw new Error("Error al cargar el producto");
-        }
-        return respuesta.json();
-      })
+    getProductById(id)
       .then((datos) => {
-        const encontrado = datos.find((p) => p.id === parseInt(id));
-        if (!encontrado) {
-          throw new Error("No se pudo encontrar el producto");
-        }
-        setProducto(encontrado);
+        setProducto(datos);
       })
       .catch((error) => {
         setError(error.message);

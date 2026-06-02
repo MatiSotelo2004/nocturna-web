@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ItemList from "./ItemList";
+import { getProducts } from "../services/productsServices";
 
 export default function ItemListContainer() {
   const [productos, setProductos] = useState([]);
@@ -7,13 +8,7 @@ export default function ItemListContainer() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    fetch("/data/productos.json")
-      .then((respuesta) => {
-        if (!respuesta.ok) {
-          throw new Error("No se puedo cargar la información de los productos");
-        }
-        return respuesta.json();
-      })
+    getProducts()
       .then((datos) => {
         setProductos(datos);
       })
