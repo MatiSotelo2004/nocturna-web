@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import CartWidget from "./CartWidget";
 import { useState } from "react";
+import { MenuIcon, CloseMenu, LoginIcon } from "../../Icons";
 
 export default function Header() {
   const linkClass = ({ isActive }) =>
@@ -19,28 +20,11 @@ export default function Header() {
           className="text-text-secondary hover:text-accent-primary transition-colors focus:outline-none md:hidden cursor-pointer"
           aria-label="Abrir menú"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-7 w-7"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            {isOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
+          {isOpen ? (
+            <CloseMenu className="w-7 h-7" />
+          ) : (
+            <MenuIcon className="w-7 h-7" />
+          )}
         </button>
 
         {/* LOGO */}
@@ -70,9 +54,13 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-
         {/* ICONOS DERECHA */}
-        <CartWidget />
+        <div className="flex gap-3">
+          <Link to="/Auth">
+            <LoginIcon className="hidden md:inline w-7 h-7 text-text-secondary hover:text-accent-primary transition-colors" />
+          </Link>
+          <CartWidget />
+        </div>
       </div>
 
       {/* MENU SECUNDARIO (DISPOSITIVOS MOVILES) */}
@@ -106,6 +94,15 @@ export default function Header() {
                 onClick={closeMenu}
               >
                 Sobre Nosotros
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/Auth"}
+                className={linkClass}
+                onClick={closeMenu}
+              >
+                Iniciar Sesión
               </NavLink>
             </li>
           </ul>

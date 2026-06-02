@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { getProductById } from "../services/productsServices";
+import { MinusIcon, PlusIcon } from "../components/Icons";
 
 export default function ItemDetailContainer() {
   const { id } = useParams();
@@ -101,58 +102,11 @@ export default function ItemDetailContainer() {
             <p className="text-4xl text-accent-primary">${producto.precio.toLocaleString("es-AR")}</p>
             <div className="mt-4 flex gap-5 items-center">
               <button className="cursor-pointer" onClick={decrementar}>
-                <svg
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  stroke="#ffffff"
-                >
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    {" "}
-                    <path
-                      d="M6 12L18 12"
-                      stroke="#ffffff"
-                      stroke-width="2.4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>{" "}
-                  </g>
-                </svg>
+                <MinusIcon className="w-7 h-7"/>
               </button>
               <p className="text-2xl">{cantidad}</p>
               <button className="cursor-pointer" onClick={incrementar}>
-                <svg
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    {" "}
-                    <path
-                      d="M6 12H18M12 6V18"
-                      stroke="#ffffff"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>{" "}
-                  </g>
-                </svg>
+                <PlusIcon className="w-7 h-7"/>
               </button>
             </div>
             <button

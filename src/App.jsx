@@ -7,6 +7,7 @@ import ItemListContainer from "./components/ItemListContainer";
 import ItemDetailContainer from "./pages/ItemDetailContainer";
 import Cart from "./pages/Cart";
 import AboutUs from "./pages/AboutUs";
+import Auth from "./pages/Auth";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/sobre-nosotros" element={<AboutUs />} />
         <Route path="/producto/:id" element={<ItemDetailContainer />} />
         <Route path="/carrito" element={<Cart />} />
+        <Route path="/Auth" element={<Auth />} />
       </Route>
     </Routes>
   );
