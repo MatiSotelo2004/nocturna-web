@@ -98,7 +98,7 @@ export default function ItemDetailContainer() {
                 ? `${producto.stock} unidades disponibles`
                 : "Sin stock"}
             </p>
-            <p className="text-4xl text-accent-primary">${producto.precio}</p>
+            <p className="text-4xl text-accent-primary">${producto.precio.toLocaleString("es-AR")}</p>
             <div className="mt-4 flex gap-5 items-center">
               <button className="cursor-pointer" onClick={decrementar}>
                 <svg
