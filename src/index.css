@@ -1,30 +1,55 @@
-@import "tailwindcss";
-
-@theme{
-  --color-primary: #0D0D0F;
-  --color-secondary: #1A1A1F;
-  --color-accent-primary: #C9A84C;
-  --color-accent-secondary: #8B2035;
-  --color-text-primary: #F0EBE0;
-  --color-text-secondary: #9B97A8;
-
+:root {
+  --primary: #0D0D0F;
+  --secondary: #1A1A1F;
+  --accent-gold: #C9A84C;
+  --accent-crimson: #8B2035;
+  --text-light: #F0EBE0;
+  --text-muted: #9B97A8;
   --font-sans: "DM Sans", sans-serif;
   --font-titulo: "Playfair Display", serif;
 }
 
-@layer base{
-  body{
-    @apply text-text-primary;
-  }
+body {
+  background-color: var(--primary) !important;
+  color: var(--text-light) !important;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
 }
 
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: var(--font-titulo);
+}
+
+/* Custom Text and BG Colors */
+.text-accent-primary {
+  color: var(--accent-gold) !important;
+}
+
+.text-accent-secondary {
+  color: var(--accent-crimson) !important;
+}
+
+.text-text-secondary {
+  color: var(--text-muted) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .transicion-pagina {
-  animation: fadeIn 1s ease-out forwards;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
 @keyframes fadeInHorizontal {
@@ -33,5 +58,122 @@
 }
 
 .transicion-pagina-horizontal {
-  animation: fadeInHorizontal 1s ease-out forwards;
+  animation: fadeInHorizontal 0.8s ease-out forwards;
+}
+
+/* Book Card Custom Styling */
+.book-card {
+  background-color: rgba(26, 26, 31, 0.6);
+  border: 1px solid rgba(155, 151, 168, 0.1) !important;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.book-card:hover {
+  border-color: rgba(201, 168, 76, 0.3) !important;
+  box-shadow: 0 15px 35px rgba(139, 32, 53, 0.15);
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Premium Buttons */
+.btn-gold {
+  background-color: var(--accent-gold) !important;
+  color: #000000 !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 30px !important;
+  padding: 10px 24px !important;
+  transition: all 0.3s ease !important;
+  letter-spacing: 0.5px;
+}
+
+.btn-gold:hover {
+  background-color: #e2c062 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.35);
+}
+
+.btn-outline-gold {
+  border: 1px solid var(--accent-gold) !important;
+  color: var(--accent-gold) !important;
+  background: transparent !important;
+  border-radius: 30px !important;
+  padding: 10px 24px !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-outline-gold:hover {
+  background-color: var(--accent-gold) !important;
+  color: #000000 !important;
+}
+
+/* Form Styles */
+.custom-input {
+  background-color: var(--secondary) !important;
+  border: 1px solid rgba(155, 151, 168, 0.2) !important;
+  color: var(--text-light) !important;
+  border-radius: 6px;
+  padding: 12px 16px;
+  transition: border-color 0.3s ease;
+}
+
+.custom-input::placeholder {
+  color: rgba(155, 151, 168, 0.5) !important;
+}
+
+.custom-input:focus {
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 0.25rem rgba(201, 168, 76, 0.15) !important;
+  outline: none;
+}
+
+.custom-form-container {
+  background-color: rgba(26, 26, 31, 0.9);
+  border: 1px solid rgba(155, 151, 168, 0.15);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Hero Section Gradient background */
+.hero-gradient {
+  background: linear-gradient(135deg, #180909 0%, var(--secondary) 50%, #090918 100%);
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Custom Header / Nav styles */
+header {
+  border-bottom: 1px solid rgba(155, 151, 168, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.nav-link-custom {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link-custom:hover, .nav-link-custom.active {
+  color: var(--accent-gold) !important;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
 }

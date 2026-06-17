@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { getProductById } from "../services/productsServices";
-import { MinusIcon, PlusIcon } from "../components/Icons";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { FaMinus, FaPlus, FaShoppingBag, FaArrowLeft } from "react-icons/fa";
 
 export default function ItemDetailContainer() {
   const { id } = useParams();
@@ -47,82 +48,131 @@ export default function ItemDetailContainer() {
   const handleAddToCart = () => {
     addToCart(producto, cantidad);
     alert(
-      `Agregaste ${cantidad} ${cantidad > 1 ? "copias" : "copia"} de "${producto.titulo}"`,
+      `Agregaste ${cantidad} ${cantidad > 1 ? "copias" : "copia"} de "${producto.titulo}" al carrito.`
     );
   };
 
   if (cargando) {
     return (
-      <p className="text-center text-text-secondary py-10">
-        Cargando, por favor espere...
-      </p>
+      <Container className="py-5 text-center text-text-secondary">
+        <Spinner animation="border" variant="warning" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </Spinner>
+        <p className="mt-3">Cargando detalle del producto...</p>
+      </Container>
     );
   }
+
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center">
-        <p className="text-center text-text-secondary py-10">{error}</p>
-        <Link
-          to="/productos"
-          className="hover:text-accent-primary transition-colors duration-200"
-        >
-          Volver al catálogo
+      <Container className="py-5 text-center text-text-secondary">
+        <p className="h5 text-danger mb-4">{error}</p>
+        <Link to="/productos" className="btn btn-outline-gold d-inline-flex align-items-center gap-2">
+          <FaArrowLeft />
+          <span>Volver al catálogo</span>
         </Link>
-      </div>
+      </Container>
     );
   }
-  return (
-    <section className="max-w-5xl mx-auto px-6 py-12 transicion-pagina">
-      <nav className="text-xs text-text-secondary mb-8 flex items-center gap-2 justify-center md:justify-normal">
-        <Link
-          to="/productos"
-          className="hover:text-accent-primary transition-colors"
-        >
-          Catálogo
-        </Link>
-        <span>/</span>
-        <span className="text-text-secondary">{producto.titulo}</span>
-      </nav>
 
-      <div className="flex flex-col items-center text-center gap-8 md:text-left md:flex-row md:items-start">
-        <img
-          src={producto.imagen}
-          alt={producto.titulo}
-          className="w-50 md:min-w-sm rounded-lg shadow-accent-secondary/20 shadow-2xl"
-        />
-        <div className="flex flex-col">
-          <div className="flex gap-2 text-text-secondary capitalize mb-3 justify-center md:justify-normal md:mb-0">
-            <span>{producto.tipo}</span>
-            <span>|</span>
-            <span>{producto.genero}</span>
-          </div>
-          <h1 className="font-titulo text-4xl font-black">{producto.titulo}</h1>
-          <p className="py-8">{producto.descripcion}</p>
-          <div className="flex flex-col items-center">
-            <p className="font-semibold">
-              {producto.stock > 0
-                ? `${producto.stock} unidades disponibles`
-                : "Sin stock"}
-            </p>
-            <p className="text-4xl text-accent-primary">${producto.precio.toLocaleString("es-AR")}</p>
-            <div className="mt-4 flex gap-5 items-center">
-              <button className="cursor-pointer" onClick={decrementar}>
-                <MinusIcon className="w-7 h-7"/>
-              </button>
-              <p className="text-2xl">{cantidad}</p>
-              <button className="cursor-pointer" onClick={incrementar}>
-                <PlusIcon className="w-7 h-7"/>
-              </button>
-            </div>
-            <button
-              onClick={handleAddToCart}
-              className="bg-accent-primary py-3 px-10 rounded-full mt-5 hover:bg-yellow-200 hover:text-secondary hover:scale-105 transition-all transform duration-300"
+  return (
+    <section className="py-5">
+      <Container className="transicion-pagina">
+        {/* BREADCRUMB */}
+        <nav className="text-text-secondary small mb-4 d-flex align-items-center gap-2">
+          <Link to="/productos" className="text-decoration-none text-text-secondary nav-link-custom">
+            Catálogo
+          </Link>
+          <span>/</span>
+          <span className="text-light text-truncate" style={{ maxWidth: "250px" }}>{producto.titulo}</span>
+        </nav>
+
+        <Row className="gy-5 gx-md-5 align-items-start mt-2">
+          {/* IMAGEN DE PORTADA */}
+          <Col xs={12} md={5} lg={4} className="text-center text-md-start">
+            <div 
+              className="d-inline-block p-1 bg-secondary rounded shadow-lg"
+              style={{ border: "1px solid rgba(155, 151, 168, 0.15)" }}
             >
-              Agregar al carrito
-            </button>
-          </div>
-        </div>
-      </div>
+              <img
+                src={producto.imagen}
+                alt={producto.titulo}
+                className="img-fluid rounded"
+                style={{ maxHeight: "480px", objectFit: "cover", width: "100%", maxWidth: "320px" }}
+              />
+            </div>
+          </Col>
+
+          {/* DETALLES Y ACCIONES */}
+          <Col xs={12} md={7} lg={8}>
+            <div className="d-flex align-items-center gap-2 text-text-secondary text-uppercase mb-2" style={{ fontSize: "0.8rem", letterSpacing: "1px" }}>
+              <span>{producto.tipo}</span>
+              <span>|</span>
+              <span>{producto.genero}</span>
+            </div>
+            
+            <h1 className="font-serif display-5 fw-bold text-light mb-3">{producto.titulo}</h1>
+            <p className="text-text-secondary mb-4" style={{ fontSize: "0.95rem", letterSpacing: "1.5px" }}>
+              Por: <strong className="text-light">{producto.autor}</strong>
+            </p>
+
+            <p className="text-text-secondary mb-4" style={{ lineHeight: "1.7", fontSize: "1rem" }}>
+              {producto.descripcion}
+            </p>
+
+            <hr style={{ borderColor: "rgba(155, 151, 168, 0.15)" }} className="my-4" />
+
+            <div className="d-flex flex-column gap-3" style={{ maxWidth: "350px" }}>
+              <div className="d-flex justify-content-between align-items-center">
+                <span className="text-text-secondary small">Disponibilidad:</span>
+                <span className={`fw-semibold ${producto.stock > 0 ? "text-success" : "text-danger"}`}>
+                  {producto.stock > 0 ? `${producto.stock} unidades` : "Sin stock"}
+                </span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <span className="text-text-secondary small">Precio unitario:</span>
+                <span className="text-accent-primary fw-bold h3 mb-0">
+                  ${producto.precio.toLocaleString("es-AR")}
+                </span>
+              </div>
+
+              {producto.stock > 0 && (
+                <>
+                  <div className="d-flex align-items-center justify-content-between border rounded p-2 bg-secondary" style={{ borderColor: "rgba(155, 151, 168, 0.2)" }}>
+                    <span className="text-text-secondary small ps-1">Cantidad:</span>
+                    <div className="d-flex gap-3 align-items-center">
+                      <button 
+                        className="btn btn-sm text-light p-1 border-0" 
+                        onClick={decrementar}
+                        style={{ fontSize: "0.9rem" }}
+                      >
+                        <FaMinus />
+                      </button>
+                      <span className="text-light fw-bold px-2" style={{ fontSize: "1.1rem" }}>{cantidad}</span>
+                      <button 
+                        className="btn btn-sm text-light p-1 border-0" 
+                        onClick={incrementar}
+                        style={{ fontSize: "0.9rem" }}
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleAddToCart}
+                    className="btn btn-gold py-3 w-100 mt-2 d-flex align-items-center justify-content-center gap-2"
+                  >
+                    <FaShoppingBag />
+                    <span>Agregar al carrito</span>
+                  </button>
+                </>
+              )}
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </section>
   );
 }

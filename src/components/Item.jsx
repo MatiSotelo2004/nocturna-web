@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { FaShoppingBag } from "react-icons/fa";
 
 export default function Item({
   id,
@@ -23,46 +24,77 @@ export default function Item({
   };
   const { addToCart } = useCart();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.preventDefault(); // Evita navegar al detalle si se hace click en comprar
     addToCart(producto, 1);
-    alert(`Agregaste 1 copia de "${producto.titulo}"`);
+    alert(`Agregaste 1 copia de "${producto.titulo}" al carrito.`);
   };
 
   return (
-    <div className="transicion-pagina bg-primary/50 border-2 border-text-secondary/10 rounded-lg flex flex-col overflow-hidden hover:border-accent-secondary/30 hover:shadow-accent-secondary/30 hover:shadow-2xl hover:scale-105 transition-all duration-400">
+    <div className="book-card h-100 d-flex flex-column transicion-pagina">
       {/* PORTADA */}
-      <Link to={`/producto/${id}`}>
-        <div className="relative aspect-2/3 overflow-hidden">
+      <Link to={`/producto/${id}`} className="text-decoration-none position-relative d-block">
+        <div style={{ aspectRatio: "2/3", overflow: "hidden" }}>
           <img
             src={imagen}
             alt={titulo}
-            className="w-full h-full object-cover"
+            className="w-100 h-100 object-fit-cover"
           />
-          <span className="absolute top-2 right-2 text-xs px-2 py-0.5 rounded bg-black/60 text-accent-primary border border-amber-400/30 capitalize">
-            {tipo}
-          </span>
         </div>
+        <span 
+          className="position-absolute top-0 end-0 m-2 badge"
+          style={{ 
+            backgroundColor: "rgba(0, 0, 0, 0.75)", 
+            color: "var(--accent-gold)",
+            border: "1px solid rgba(201, 168, 76, 0.3)",
+            textTransform: "capitalize"
+          }}
+        >
+          {tipo}
+        </span>
       </Link>
 
       {/* INFO PROD */}
-      <div className="p-4 flex flex-col flex-1">
-        <p className="text-xs text-gray-400 mb-1">{genero}</p>
-        <h3 className="font-titulo font-black text-sm leading-snug mb-1 line-clamp-2">
-          {titulo}
-        </h3>
-        <p className="text-xs text-gray-500 mb-3">{autor}</p>
+      <div className="card-body d-flex flex-column p-3 justify-content-between flex-grow-1">
+        <div>
+          <p 
+            className="text-text-secondary text-uppercase mb-1"
+            style={{ fontSize: "0.7rem", letterSpacing: "1px" }}
+          >
+            {genero}
+          </p>
+          <h3 
+            className="text-light h6 mb-1 text-truncate-2"
+            style={{ 
+              fontWeight: "600",
+              lineHeight: "1.3",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              height: "2.6em" // mantiene altura fija para alineación
+            }}
+          >
+            {titulo}
+          </h3>
+          <p className="text-text-secondary small mb-3">{autor}</p>
+        </div>
 
+        <div className="mt-auto">
+          <div className="d-flex align-items-center justify-content-between">
+            <span className="text-accent-primary fw-semibold h5 mb-0">
+              ${precio.toLocaleString("es-AR")}
+            </span>
+          </div>
 
-        <span className="text-accent-primary font-medium text-sm">
-          ${precio.toLocaleString("es-AR")}
-        </span>
-
-        <button
-          onClick={handleAddToCart}
-          className="bg-accent-primary py-2 rounded-4xl mt-3 font-bold hover:bg-amber-200 hover:text-secondary transition-colors duration-200 cursor-pointer"
-        >
-          Comprar
-        </button>
+          <button
+            onClick={handleAddToCart}
+            className="btn btn-gold w-100 mt-3 d-flex align-items-center justify-content-center gap-2"
+          >
+            <FaShoppingBag style={{ fontSize: "0.9rem" }} />
+            <span>Comprar</span>
+          </button>
+        </div>
       </div>
     </div>
   );

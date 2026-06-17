@@ -1,11 +1,14 @@
+import { Row, Col } from "react-bootstrap";
 import Item from "./Item";
 
 export default function ItemList({ productos }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <Row className="g-4">
       {productos.map((prod) => (
-        <Item key={prod.id} {...prod} />
+        <Col key={prod.id} xs={12} sm={6} md={4} lg={3}>
+          <Item {...prod} />
+        </Col>
       ))}
-    </div>
+    </Row>
   );
 }

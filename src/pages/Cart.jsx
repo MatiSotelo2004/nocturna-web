@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useEffect } from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import { FaTrash, FaShoppingCart, FaCreditCard, FaArrowLeft } from "react-icons/fa";
 
 export default function Cart() {
-  const { cart, clearCart, getCartTotal } = useCart();
+  const { cart, clearCart, getCartTotal, removeFromCart } = useCart();
 
   useEffect(() => {
     document.title = "Tu Carrito | Nocturna";
@@ -11,97 +13,117 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <section className="flex flex-col items-center justify-center min-h-[70vh] gap-6 px-6 transicion-pagina">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-16 w-16 text-mist-700"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={1}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.886-7.145A60.114 60.114 0 003.27 5.272M7.5 14.25L5.106 5.272M7.5 14.25l-1.5 6m13.5-6l1.5 6M15 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm-9 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-          />
-        </svg>
-
-        <div className="text-center">
-          <h3 className="font-serif text-2xl mb-2">Tu carrito está vacío</h3>
-          <p className="text-text-secondary text-sm">
-            Explorá el catálogo y encontrá tu próxima lectura.
-          </p>
-        </div>
-
-        <Link
-          to="/productos"
-          className="bg-accent-primary text-black text-sm font-medium tracking-wider px-6 py-3 rounded hover:bg-amber-300 transition-colors"
-        >
+      <Container className="py-5 text-center transicion-pagina d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "60vh" }}>
+        <FaShoppingCart className="text-text-secondary mb-4" style={{ fontSize: "4rem", opacity: 0.3 }} />
+        <h3 className="font-serif text-light mb-2">Tu carrito está vacío</h3>
+        <p className="text-text-secondary mb-4 small" style={{ maxWidth: "400px" }}>
+          Explora el catálogo y encuentra tu próxima lectura favorita para acompañar tus noches.
+        </p>
+        <Link to="/productos" className="btn btn-gold px-4 py-2">
           Ir al catálogo
         </Link>
-      </section>
+      </Container>
     );
   }
+
   return (
-    <>
-      <section className="max-w-4xl mx-auto px-6 py-12 transicion-pagina">
-        <h1 className="font-serif text-3xl mb-10">Carrito de compras</h1>
+    <section className="py-5">
+      <Container className="transicion-pagina">
+        <h1 className="font-serif text-light mb-5">Carrito de compras</h1>
 
-        <div className="flex flex-col gap-4 mb-10">
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center gap-6 bg-primary/20 border border-mist-800 rounded-lg p-4"
-            >
-              <img
-                src={item.imagen}
-                alt={item.titulo}
-                className="w-16 h-24 object-cover rounded"
-              />
-
-              <div className="flex-1">
-                <h3 className="font-serif text-sm mb-1">{item.titulo}</h3>
-                <p className="text-mist-600 text-xs mb-2">{item.autor}</p>
-                <p className="text-text-secondary text-xs">
-                  Cantidad: {item.quantity}
-                </p>
-              </div>
-              <p className="text-accent-primary font-medium text-sm">
-                ${(item.precio * item.quantity).toLocaleString("es-AR")}
-              </p>
+        <Row className="g-4">
+          {/* LISTA DE PRODUCTOS */}
+          <Col xs={12} lg={8}>
+            <div className="d-flex flex-column gap-3 mb-4">
+              {cart.map((item) => (
+                <Card 
+                  key={item.id} 
+                  className="bg-secondary text-light border-0 p-3" 
+                  style={{ border: "1px solid rgba(155, 151, 168, 0.15) !important" }}
+                >
+                  <Row className="g-3 align-items-center">
+                    <Col xs={3} sm={2}>
+                      <img
+                        src={item.imagen}
+                        alt={item.titulo}
+                        className="img-fluid rounded"
+                        style={{ maxHeight: "100px", objectFit: "cover", width: "100%" }}
+                      />
+                    </Col>
+                    <Col xs={6} sm={7}>
+                      <h3 className="font-serif h6 mb-1 text-truncate">{item.titulo}</h3>
+                      <p className="text-text-secondary small mb-2">{item.autor}</p>
+                      <p className="text-text-secondary mb-0 small">
+                        Cantidad: <strong className="text-light">{item.quantity}</strong>
+                      </p>
+                    </Col>
+                    <Col xs={3} sm={3} className="text-end d-flex flex-column align-items-end justify-content-between h-100">
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="btn text-text-secondary hover-crimson p-0 border-0 mb-3"
+                        style={{ fontSize: "1.1rem" }}
+                        title="Eliminar del carrito"
+                      >
+                        <FaTrash />
+                      </button>
+                      <span className="text-accent-primary fw-semibold">
+                        ${(item.precio * item.quantity).toLocaleString("es-AR")}
+                      </span>
+                    </Col>
+                  </Row>
+                </Card>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <div className="border-t border-mist-800 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <p className="text-text-secondary text-sm mb-1">Total</p>
+            <Link to="/productos" className="btn btn-outline-gold d-inline-flex align-items-center gap-2 mb-4">
+              <FaArrowLeft style={{ fontSize: "0.8rem" }} />
+              <span>Seguir comprando</span>
+            </Link>
+          </Col>
 
-            <p className="font-serif text-3xl text-accent-primary">
-              ${getCartTotal()}
-            </p>
-          </div>
+          {/* RESUMEN DE COMPRA */}
+          <Col xs={12} lg={4}>
+            <Card className="bg-secondary text-light border-0 p-4" style={{ border: "1px solid rgba(155, 151, 168, 0.15) !important" }}>
+              <h3 className="font-serif h5 mb-4 border-bottom pb-2" style={{ borderColor: "rgba(155, 151, 168, 0.15) !important" }}>
+                Resumen
+              </h3>
+              
+              <div className="d-flex justify-content-between mb-3 text-text-secondary">
+                <span>Subtotal ({cart.length} productos)</span>
+                <span>${getCartTotal().toLocaleString("es-AR")}</span>
+              </div>
+              
+              <div className="d-flex justify-content-between mb-4 border-top pt-3" style={{ borderColor: "rgba(155, 151, 168, 0.15) !important" }}>
+                <span className="fw-semibold">Total</span>
+                <span className="text-accent-primary fw-bold h4 mb-0">
+                  ${getCartTotal().toLocaleString("es-AR")}
+                </span>
+              </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={clearCart}
-              className="cursor-pointer text-sm text-text-secondary border border-mist-800 px-4 py-2 rounded hover:border-accent-secondary hover:text-accent-secondary transition-colors"
-            >
-              Vaciar carrito
-            </button>
-            <button
-              className="cursor-pointer bg-accent-primary text-black text-sm font-medium px-6 py-2 rounded hover:bg-amber-300 transition-colors"
-              onClick={() => {
-                alert("¡Gracias por su compra!");
-                clearCart();
-              }}
-            >
-              Finalizar compra
-            </button>
-          </div>
-        </div>
-      </section>
-    </>
+              <div className="d-flex flex-column gap-2">
+                <button
+                  className="btn btn-gold w-100 py-3 d-flex align-items-center justify-content-center gap-2"
+                  onClick={() => {
+                    alert("¡Gracias por su compra!");
+                    clearCart();
+                  }}
+                >
+                  <FaCreditCard />
+                  <span>Finalizar compra</span>
+                </button>
+                
+                <button
+                  onClick={clearCart}
+                  className="btn btn-outline-danger w-100 py-2 mt-2"
+                  style={{ borderRadius: "30px" }}
+                >
+                  Vaciar carrito
+                </button>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </section>
   );
 }

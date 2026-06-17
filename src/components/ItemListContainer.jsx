@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
 import ItemList from "./ItemList";
 import { getProducts } from "../services/productsServices";
 
@@ -22,14 +23,35 @@ export default function ItemListContainer() {
   }, []);
 
   if (cargando) {
-    return <p className="text-center text-text-secondary py-10">Cargando productos, por favor espere...</p>;
+    return (
+      <Container className="py-5 text-center text-text-secondary">
+        <div className="spinner-border text-accent-primary" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </div>
+        <p className="mt-3">Cargando productos, por favor espere...</p>
+      </Container>
+    );
   }
+
   if (error) {
-    return <p className="text-center text-text-secondary py-10">Error:{error}</p>;
+    return (
+      <Container className="py-5 text-center text-text-secondary">
+        <p className="h5 text-danger">Error: {error}</p>
+      </Container>
+    );
   }
-  return (<section className="max-w-7xl mx-auto px-6 py-12">
-    <h1 className="font-serif text-3xl mb-2 text-center">NUESTRO CATÁLOGO</h1>
-    <p className="text-text-secondary text-sm mb-10 text-center" >{productos.length} títulos disponibles</p>
-    <ItemList productos={productos}/>
-  </section>);
+
+  return (
+    <section className="py-5">
+      <Container className="transicion-pagina">
+        <h1 className="font-serif text-center mb-2 text-light uppercase tracking-wider">
+          NUESTRO CATÁLOGO
+        </h1>
+        <p className="text-text-secondary text-center small mb-5">
+          {productos.length} títulos disponibles
+        </p>
+        <ItemList productos={productos} />
+      </Container>
+    </section>
+  );
 }

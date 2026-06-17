@@ -34,6 +34,10 @@ export const CartProvider = ({ children }) => {
   const clearCart = () => {
     setCart([]);
   };
+
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+  };
   
   // FUNCION PARA OBTENER ITEMS TOTALES
   const getCartQuantity = () => {
@@ -55,6 +59,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cart,
         addToCart,
+        removeFromCart,
         clearCart,
         getCartQuantity,
         getCartTotal,

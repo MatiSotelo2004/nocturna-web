@@ -19,23 +19,23 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loding, setLoding] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   // CUENTA CON PERMISOS ADMIN
   const EMAIL_ADMIN = "admin@prueba.com";
 
   const Login = (email, pass) => {
-    signInWithEmailAndPassword(auth, email, pass);
+    return signInWithEmailAndPassword(auth, email, pass);
   };
 
   const Logout = () => {
-    signOut(auth);
+    return signOut(auth);
   };
 
   useEffect(() => {
     const isLoged = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      setLoding(false);
+      setLoading(false);
     });
 
     return () => isLoged();
@@ -45,11 +45,11 @@ export const AuthProvider = ({ children }) => {
     user,
     Login,
     Logout,
-    loding,
-    isAdmin: user?.email === EMAIL_ADMIN
+    loading,
+    isAdmin: user?.email === EMAIL_ADMIN,
   };
 
-  <AuthContext.Provider value={sharedData}>
-    {children}
-  </AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={sharedData}>{children}</AuthContext.Provider>
+  );
 };
