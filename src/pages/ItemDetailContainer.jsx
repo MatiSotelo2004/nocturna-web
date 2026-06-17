@@ -13,12 +13,17 @@ export default function ItemDetailContainer() {
   const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
+    document.title = "Cargando libro... | Nocturna";
     getProductById(id)
       .then((datos) => {
         setProducto(datos);
+        if (datos && datos.titulo) {
+          document.title = `${datos.titulo} | Nocturna`;
+        }
       })
       .catch((error) => {
         setError(error.message);
+        document.title = "Error | Nocturna";
       })
       .finally(() => {
         setCargando(false);
@@ -91,7 +96,7 @@ export default function ItemDetailContainer() {
             <span>|</span>
             <span>{producto.genero}</span>
           </div>
-          <h2 className="font-titulo text-4xl font-black">{producto.titulo}</h2>
+          <h1 className="font-titulo text-4xl font-black">{producto.titulo}</h1>
           <p className="py-8">{producto.descripcion}</p>
           <div className="flex flex-col items-center">
             <p className="font-semibold">

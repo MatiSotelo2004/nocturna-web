@@ -8,6 +8,7 @@ export default function ItemListContainer() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
+    document.title = "Catálogo | Nocturna";
     getProducts()
       .then((datos) => {
         setProductos(datos);
@@ -27,7 +28,7 @@ export default function ItemListContainer() {
     return <p className="text-center text-text-secondary py-10">Error:{error}</p>;
   }
   return (<section className="max-w-7xl mx-auto px-6 py-12">
-    <h2 className="font-serif text-3xl mb-2 text-center">NUESTRO CATÁLOGO</h2>
+    <h1 className="font-serif text-3xl mb-2 text-center">NUESTRO CATÁLOGO</h1>
     <p className="text-text-secondary text-sm mb-10 text-center" >{productos.length} títulos disponibles</p>
     <ItemList productos={productos}/>
   </section>);

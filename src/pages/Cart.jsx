@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useEffect } from "react";
 
 export default function Cart() {
   const { cart, clearCart, getCartTotal } = useCart();
+
+  useEffect(() => {
+    document.title = "Tu Carrito | Nocturna";
+  }, []);
 
   if (cart.length === 0) {
     return (

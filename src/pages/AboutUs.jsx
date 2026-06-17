@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const valores = [
   {
     titulo: "Curaduría",
@@ -17,6 +19,10 @@ const valores = [
 ];
 
 export default function AboutUs() {
+  useEffect(() => {
+    document.title = "Sobre Nosotros | Nocturna";
+  }, []);
+
   return (
     <>
       {/* ── HERO ── */}

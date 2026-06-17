@@ -13,11 +13,14 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
+        {/* RUTAS PUBLICAS */}
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<ItemListContainer />} />
         <Route path="/sobre-nosotros" element={<AboutUs />} />
         <Route path="/producto/:id" element={<ItemDetailContainer />} />
         <Route path="/carrito" element={<Cart />} />
+
+        {/* RUTAS PROTEGIDAS */}
         <Route path="/Auth" element={<Auth />} />
       </Route>
     </Routes>

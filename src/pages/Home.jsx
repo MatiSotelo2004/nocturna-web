@@ -9,6 +9,7 @@ export default function Home() {
   const [destacados, setDestacados] = useState([]);
 
   useEffect(() => {
+    document.title = "Nocturna | Librería Online para Noctámbulos";
     getProducts()
       .then((prod) => {
         const mejores = [...prod]
