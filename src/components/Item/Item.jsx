@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../../context/CartContext";
 import { FaShoppingBag } from "react-icons/fa";
+import styles from "./Item.module.css";
 
 export default function Item({
   id,
@@ -31,7 +32,7 @@ export default function Item({
   };
 
   return (
-    <div className="book-card h-100 d-flex flex-column transicion-pagina">
+    <div className={styles.bookCard}>
       {/* PORTADA */}
       <Link to={`/producto/${id}`} className="text-decoration-none position-relative d-block">
         <div style={{ aspectRatio: "2/3", overflow: "hidden" }}>

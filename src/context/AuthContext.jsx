@@ -1,10 +1,12 @@
 import { useContext, useState, createContext } from "react";
 import {
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useEffect } from "react";
 
 export const AuthContext = createContext(null);
@@ -19,26 +21,77 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState({
+    fullname: "",
+    email: "",
+    username: "",
+    isAdmin: false,
+  });
 
-  // CUENTA CON PERMISOS ADMIN
-  const EMAIL_ADMIN = "admin@prueba.com";
-
-  const Login = (email, pass) => {
-    return signInWithEmailAndPassword(auth, email, pass);
+  const Login = async (email, pass) => {
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        pass,
+      );
+      setUser(userCredential.user);
+      console.log("Bienvenido", userCredential.user);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const Logout = () => {
     return signOut(auth);
   };
 
+  const CreateUser = async (email, pass, fullname, username) => {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      pass,
+    );
+    const user = userCredential.user;
+    await setDoc(doc(db, "users", user.uid), {
+      fullname,
+      email,
+      username,
+      isAdmin: false,
+    });
+    return userCredential;
+  };
+
   useEffect(() => {
-    const isLoged = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setLoading(true);
       setUser(user);
+
+      if (user) {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(userRef);
+
+          if (docSnap.exists()) {
+            setUserData(docSnap.data());
+            console.log("Datos del usuario:", docSnap.data());
+          } else {
+            console.log("No se encontró el documento del usuario");
+          }
+        } catch (error) {
+          console.error("Error al obtener el documento:", error);
+        }
+      } else {
+        setUserData(null);
+      }
       setLoading(false);
     });
 
-    return () => isLoged();
+    return () => unsubscribe();
   }, []);
 
   const sharedData = {
@@ -46,7 +99,9 @@ export const AuthProvider = ({ children }) => {
     Login,
     Logout,
     loading,
-    isAdmin: user?.email === EMAIL_ADMIN,
+    isAdmin: user?.isAdmin === true || false,
+    CreateUser,
+    userData,
   };
 
   return (

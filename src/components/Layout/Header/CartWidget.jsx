@@ -1,6 +1,7 @@
 import { useCart } from "../../../context/CartContext";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import styles from "./Header.module.css"
 
 export default function CartWidget() {
   const { getCartQuantity } = useCart();
@@ -8,14 +9,14 @@ export default function CartWidget() {
   return (
     <Link
       to="/carrito"
-      className="position-relative d-flex align-items-center text-text-secondary"
+      className="text-text-secondary"
       style={{ fontSize: "1.3rem" }}
     >
-      <FaShoppingCart />
+      <FaShoppingCart className={styles.navIcons}/>
 
       {cantidad > 0 && (
         <span 
-          className="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+          className="position-absolute badge rounded-circle"
           style={{ 
             backgroundColor: "var(--accent-crimson)", 
             color: "var(--text-light)",

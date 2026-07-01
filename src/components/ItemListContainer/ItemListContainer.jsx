@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import ItemList from "./ItemList";
-import { getProducts } from "../services/productsServices";
+import ItemList from "../ItemList/ItemList";
+import { getProducts } from "../../services/productsServices";
 
 export default function ItemListContainer() {
   const [productos, setProductos] = useState([]);

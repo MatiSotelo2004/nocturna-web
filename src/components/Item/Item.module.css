@@ -1,0 +1,14 @@
+.bookCard {
+  background-color: rgba(26, 26, 31, 0.6);
+  border: 1px solid rgba(155, 151, 168, 0.1) !important;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+}
+
+.bookCard:hover {
+  border-color: rgba(201, 168, 76, 0.3) !important;
+  box-shadow: 0 15px 35px rgba(139, 32, 53, 0.15);
+  transform: translateY(-6px) scale(1.02) !important;
+}

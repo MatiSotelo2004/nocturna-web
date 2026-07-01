@@ -2,19 +2,22 @@ import { Link, NavLink } from "react-router-dom";
 import CartWidget from "./CartWidget";
 import { useState } from "react";
 import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import styles from "./Header.module.css";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Header() {
   const linkClass = ({ isActive }) =>
-    `nav-link-custom ${isActive ? "active" : ""}`;
+    `${styles.navLinkCustom} ${isActive ? "active" : ""}`;
 
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
 
+  //AUTH
+  const { user } = useAuth();
   return (
     <header className="bg-primary p-4 sticky-top z-3">
       {/* CONTENEDOR PRINCIPAL */}
       <div className="container-fluid d-flex justify-content-between align-items-center">
-        
         {/* BOTON PARA ABRIR MENU (DISPOSITIVOS MOVILES) */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -55,8 +58,16 @@ export default function Header() {
 
         {/* ICONOS DERECHA */}
         <div className="d-flex align-items-center gap-3">
-          <Link to="/Auth" className="text-text-secondary" style={{ fontSize: "1.3rem" }}>
-            <FaUser className="d-none d-md-inline" />
+          <Link
+            to="/Auth"
+            className="text-text-secondary"
+            style={{ fontSize: "1.3rem" }}
+          >
+            {user ? (
+              <FaUser className={styles.navIcons} />
+            ) : (
+              <button className={styles.loginBtn}>Iniciar Sesión</button>
+            )}
           </Link>
           <CartWidget />
         </div>
@@ -91,11 +102,7 @@ export default function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to={"/Auth"}
-                  className={linkClass}
-                  onClick={closeMenu}
-                >
+                <NavLink to={"/Auth"} className={linkClass} onClick={closeMenu}>
                   Iniciar Sesión
                 </NavLink>
               </li>

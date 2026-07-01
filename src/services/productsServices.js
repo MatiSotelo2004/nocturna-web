@@ -5,7 +5,7 @@ import { db } from "../firebase/config";
 // const URL_PROD = "/data/productos.json";
 
 export const getProducts = async () => {
-    const prodDB = collection(db, "libros");
+    const prodDB = collection(db, "productos");
     const resp = await getDocs(prodDB);
     
     return resp.docs.map((doc) => {
