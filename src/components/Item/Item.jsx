@@ -12,6 +12,7 @@ export default function Item({
   genero,
   tipo,
   imagen,
+  stock,
 }) {
   const producto = {
     id,
@@ -22,6 +23,7 @@ export default function Item({
     genero,
     tipo,
     imagen,
+    stock,
   };
   const { addToCart } = useCart();
 

@@ -17,8 +17,9 @@
 .navIcons {
   transition: all 200ms;
 }
-.navIcons:hover {
-  color: var(--accent-gold);
+.navIcons:hover,
+.navIcons:global(.active) {
+  color: var(--accent-gold) !important;
 }
 
 .loginBtn{
@@ -30,7 +31,8 @@
   border-radius: 0.2rem;
   transition: all 300ms;
 }
-.loginBtn:hover{
-  color:var(--accent-gold);
-  border-color: var(--accent-gold);
+.loginBtn:hover,
+.loginBtn:global(.active) {
+  color:var(--accent-gold) !important;
+  border-color: var(--accent-gold) !important;
 }

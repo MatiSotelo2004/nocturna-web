@@ -1,18 +1,21 @@
 import Layout from "./components/Layout/Layout";
-import { Route, Routes } from "react-router-dom"; 
+import { Route, Routes } from "react-router-dom";
+import {
+  PrivateRoutes,
+  AdminRoutes,
+  RedirectIfLoggedIn,
+} from "./components/ProtectedRoutes";
 
 // PAGES
 import Home from "./pages/Home/Home";
-import ItemListContainer from "./components/ItemListContainer/ItemListContainer";
-import ItemDetailContainer from "./pages/ItemDetailContainer/ItemDetailContainer";
+import Products from "./pages/Products/Products";
+import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import Cart from "./pages/Cart/Cart";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Auth from "./pages/Auth/Auth";
-import Dash from "./pages/Dash/Dash";
-import Gestion from "./pages/Gestion/Gestion";
-
-
-
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Admin from "./pages/Admin/Admin";
+import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
@@ -20,16 +23,26 @@ function App() {
       <Route element={<Layout />}>
         {/* RUTAS PUBLICAS */}
         <Route path="/" element={<Home />} />
-        <Route path="/productos" element={<ItemListContainer />} />
+        <Route path="/productos" element={<Products />} />
         <Route path="/sobre-nosotros" element={<AboutUs />} />
-        <Route path="/producto/:id" element={<ItemDetailContainer />} />
+        <Route path="/producto/:id" element={<ProductDetail />} />
         <Route path="/carrito" element={<Cart />} />
 
-        {/* RUTAS PROTEGIDAS */}
-        <Route path="/Auth" element={<Auth />} />
-        <Route path="/Dash" element={<Dash />} />
-        <Route path="/Gestion" element={<Gestion />} />
+        {/* SI ESTA LOGUEADO */}
+        <Route element={<RedirectIfLoggedIn />}>
+          <Route path="/auth" element={<Auth />} />
+        </Route>
 
+        {/* RUTAS PROTEGIDAS */}
+        <Route element={<PrivateRoutes />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<AdminRoutes />}>
+          <Route path="/admin" element={<Admin />} />
+        </Route>
+        
+        {/* COMPONENTE CATCH-ALL PARA RUTAS INEXISTENTES */}
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

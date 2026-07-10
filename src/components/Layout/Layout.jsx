@@ -6,7 +6,7 @@ function Layout() {
   return (
     <>
       <Header/>
-      <main className="bg-secondary min-h-screen">
+      <main className="bg-secondary min-vh-100">
         <Outlet/>
       </main>
       <Footer/>

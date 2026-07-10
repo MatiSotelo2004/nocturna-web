@@ -1,18 +1,21 @@
 import { useCart } from "../../../context/CartContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import styles from "./Header.module.css"
 
 export default function CartWidget() {
   const { getCartQuantity } = useCart();
   const cantidad = getCartQuantity();
+  const location = useLocation();
+  const isActive = location.pathname === "/carrito";
+
   return (
     <Link
       to="/carrito"
-      className="text-text-secondary"
+      className="text-text-secondary position-relative"
       style={{ fontSize: "1.3rem" }}
     >
-      <FaShoppingCart className={styles.navIcons}/>
+      <FaShoppingCart className={`${styles.navIcons} ${isActive ? "active" : ""}`}/>
 
       {cantidad > 0 && (
         <span 

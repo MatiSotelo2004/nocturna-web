@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import ItemList from "../ItemList/ItemList";
-import { getProducts } from "../../services/productsServices";
+import ItemList from "../../components/ItemList/ItemList";
+import { getProducts } from "../../services/productService";
 
-export default function ItemListContainer() {
+export default function Products() {
   const [productos, setProductos] = useState([]);
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(true);

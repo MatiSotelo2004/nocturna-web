@@ -21,11 +21,11 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
-    fullname: "",
+    fullName: "",
     email: "",
-    username: "",
+    userName: "",
     isAdmin: false,
   });
 
@@ -39,8 +39,10 @@ export const AuthProvider = ({ children }) => {
       );
       setUser(userCredential.user);
       console.log("Bienvenido", userCredential.user);
+      return userCredential;
     } catch (err) {
       console.error(err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -51,19 +53,27 @@ export const AuthProvider = ({ children }) => {
   };
 
   const CreateUser = async (email, pass, fullname, username) => {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      pass,
-    );
-    const user = userCredential.user;
-    await setDoc(doc(db, "users", user.uid), {
-      fullname,
-      email,
-      username,
-      isAdmin: false,
-    });
-    return userCredential;
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        pass,
+      );
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), {
+        fullName: fullname,
+        email: email,
+        userName: username,
+        isAdmin: false,
+      });
+      return userCredential;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -99,9 +109,9 @@ export const AuthProvider = ({ children }) => {
     Login,
     Logout,
     loading,
-    isAdmin: user?.isAdmin === true || false,
     CreateUser,
     userData,
+    isAdmin: userData?.isAdmin === true,
   };
 
   return (

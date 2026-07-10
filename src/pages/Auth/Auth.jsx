@@ -19,15 +19,24 @@ export default function Auth() {
   });
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    Login(dataForm.email, dataForm.pass);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await Login(dataForm.email, dataForm.pass);
+    } catch (error) {
+      alert(`Error al iniciar sesión: ${error.message}`);
+    }
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     if (dataForm.pass === dataForm.confirmPass) {
-      CreateUser(dataForm.email, dataForm.pass, dataForm.fullname, dataForm.username);
+      try {
+        await CreateUser(dataForm.email, dataForm.pass, dataForm.fullname, dataForm.username);
+        alert("¡Cuenta creada exitosamente!");
+      } catch (error) {
+        alert(`Error al registrarse: ${error.message}`);
+      }
     }
     else {
       alert("Las contraseñas no coinciden");

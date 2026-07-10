@@ -20,6 +20,7 @@ export default function Cart() {
     removeFromCart,
     substractCart,
     incrementCart,
+    getCartQuantity,
   } = useCart();
 
   useEffect(() => {
@@ -161,7 +162,7 @@ export default function Cart() {
               </h3>
 
               <div className="d-flex justify-content-between mb-3 text-text-secondary">
-                <span>Subtotal ({cart.length} productos)</span>
+                <span>Subtotal ({getCartQuantity()} productos)</span>
                 <span>${getCartTotal().toLocaleString("es-AR")}</span>
               </div>
 

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { getProductById } from "../../services/productsServices";
+import { getProductById } from "../../services/productService";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { FaMinus, FaPlus, FaShoppingBag, FaArrowLeft } from "react-icons/fa";
 
-export default function ItemDetailContainer() {
+export default function ProductDetail() {
   const { id } = useParams();
 
   const [producto, setProducto] = useState(null);

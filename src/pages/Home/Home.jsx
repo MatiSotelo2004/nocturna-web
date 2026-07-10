@@ -1,31 +1,49 @@
 import { useState, useEffect } from "react";
 import Item from "../../components/Item/Item";
 import { Link } from "react-router-dom";
-import { getProducts } from "../../services/productsServices";
+// BOOTSTRAP
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { FaArrowRight } from "react-icons/fa";
+// FIRESTORE
+import { getDocs, collection, query, orderBy, limit } from "firebase/firestore";
+import { db } from "../../firebase/config";
+
 import styles from "./Home.module.css";
 
 export default function Home() {
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [destacados, setDestacados] = useState([]);
+  const PROD_DESTACADOS = 4;
 
   useEffect(() => {
     document.title = "Nocturna | Librería Online para Noctámbulos";
-    getProducts()
-      .then((prod) => {
-        const mejores = [...prod]
-          .sort((a, b) => b.calificacion - a.calificacion)
-          .slice(0, 4);
-        setDestacados(mejores);
-      })
-      .catch((error) => {
-        setError(error.message);
-      })
-      .finally(() => {
+
+    const getDestacados = async () => {
+      setCargando(true);
+      try {
+        const prodDB = collection(db, "productos");
+        const prodQuery = query(
+          prodDB,
+          orderBy("calificacion", "desc"),
+          limit(PROD_DESTACADOS),
+        );
+        const resp = await getDocs(prodQuery);
+
+        const docs = resp.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setDestacados(docs);
+      } catch (e) {
+        setError(e.message);
+        console.error(e.message);
+      } finally {
         setCargando(false);
-      });
+      }
+    };
+
+    getDestacados();
   }, []);
 
   if (error) {
@@ -40,8 +58,15 @@ export default function Home() {
     <>
       {/* ── HERO ── */}
       <section className={styles.heroGradient}>
-        <Container className="transicion-pagina" style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-          <div >
+        <Container
+          className="transicion-pagina"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <div>
             <p
               className="text-accent-primary mb-3 text-uppercase fw-semibold"
               style={{ letterSpacing: "4px", fontSize: "0.8rem" }}

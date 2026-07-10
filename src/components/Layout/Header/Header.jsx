@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import CartWidget from "./CartWidget";
 import { useState } from "react";
 import { FaBars, FaTimes, FaUser } from "react-icons/fa";
@@ -6,6 +6,11 @@ import styles from "./Header.module.css";
 import { useAuth } from "../../../context/AuthContext";
 
 export default function Header() {
+  const location = useLocation();
+  const isUserActive = ["/auth", "/dashboard", "/admin"].includes(
+    location.pathname,
+  );
+
   const linkClass = ({ isActive }) =>
     `${styles.navLinkCustom} ${isActive ? "active" : ""}`;
 
@@ -59,14 +64,20 @@ export default function Header() {
         {/* ICONOS DERECHA */}
         <div className="d-flex align-items-center gap-3">
           <Link
-            to="/Auth"
-            className="text-text-secondary"
+            to="/auth"
+            className="text-text-secondary d-none d-md-inline"
             style={{ fontSize: "1.3rem" }}
           >
             {user ? (
-              <FaUser className={styles.navIcons} />
+              <FaUser
+                className={`${styles.navIcons} ${isUserActive ? "active" : ""}`}
+              />
             ) : (
-              <button className={styles.loginBtn}>Iniciar Sesión</button>
+              <button
+                className={`${styles.loginBtn} ${isUserActive ? "active" : ""}`}
+              >
+                Iniciar Sesión
+              </button>
             )}
           </Link>
           <CartWidget />
@@ -102,9 +113,23 @@ export default function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to={"/Auth"} className={linkClass} onClick={closeMenu}>
-                  Iniciar Sesión
-                </NavLink>
+                {user ? (
+                  <NavLink
+                    to={"/dashboard"}
+                    className={linkClass}
+                    onClick={closeMenu}
+                  >
+                    Mi Cuenta
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    to={"/auth"}
+                    className={linkClass}
+                    onClick={closeMenu}
+                  >
+                    Iniciar Sesión
+                  </NavLink>
+                )}
               </li>
             </ul>
           </nav>

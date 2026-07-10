@@ -20,6 +20,14 @@ export const CartProvider = ({ children }) => {
   // FUNCION AÑADIR AL CARRITO
   const addToCart = (product, quantity) => {
     const itemInCart = cart.find((item) => item.id === product.id);
+    const currentQty = itemInCart ? itemInCart.quantity : 0;
+    const maxAvailable = product.stock !== undefined ? product.stock : 999;
+
+    if (currentQty + quantity > maxAvailable) {
+      alert(`No puedes agregar más de ${maxAvailable} unidades de este producto (límite de stock).`);
+      return;
+    }
+
     if (itemInCart) {
       const updatedCart = cart.map((item) =>
         item.id === product.id
@@ -69,9 +77,18 @@ export const CartProvider = ({ children }) => {
 
   // SUMAR UNA UNIDAD AL PRODUCTO
   const incrementCart = (itemId) => {
-    const updateCart = cart.map((item) =>
-      item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item,
-    );
+    const updateCart = cart.map((item) => {
+      if (item.id === itemId) {
+        const maxAvailable = item.stock !== undefined ? item.stock : 999;
+        if (item.quantity < maxAvailable) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          alert(`No puedes agregar más de ${maxAvailable} unidades (límite de stock).`);
+          return item;
+        }
+      }
+      return item;
+    });
     setCart(updateCart);
   };
 
