@@ -1,0 +1,107 @@
+.profileCard {
+  background-color: rgba(26, 26, 31, 0.85);
+  border: 1px solid rgba(155, 151, 168, 0.15);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  max-width: 600px;
+  width: 100%;
+}
+
+.avatarCircle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-crimson));
+  color: #000000;
+  font-family: var(--font-titulo);
+  font-size: 2.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.25);
+  user-select: none;
+}
+
+.infoSection {
+  border-top: 1px solid rgba(155, 151, 168, 0.12);
+  border-bottom: 1px solid rgba(155, 151, 168, 0.12);
+  padding: 24px 0;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.infoRow:not(:last-child) {
+  border-bottom: 1px solid rgba(155, 151, 168, 0.05);
+}
+
+.infoLabel {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.infoValue {
+  color: var(--text-light);
+  font-weight: 600;
+  text-align: right;
+  word-break: break-all;
+}
+
+.roleBadge {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.badgeAdmin {
+  background-color: rgba(201, 168, 76, 0.12);
+  color: var(--accent-gold);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+.badgeUser {
+  background-color: rgba(155, 151, 168, 0.08);
+  color: var(--text-muted);
+  border: 1px solid rgba(155, 151, 168, 0.2);
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.btnDangerCustom {
+  background: transparent !important;
+  color: #ff4d6d !important;
+  border: 1px solid rgba(255, 77, 109, 0.4) !important;
+  border-radius: 30px !important;
+  padding: 10px 24px !important;
+  transition: all 0.3s ease !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.btnDangerCustom:hover {
+  background-color: var(--accent-crimson) !important;
+  border-color: var(--accent-crimson) !important;
+  color: var(--text-light) !important;
+  box-shadow: 0 6px 20px rgba(139, 32, 53, 0.35);
+  transform: translateY(-2px);
+}

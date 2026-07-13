@@ -1,0 +1,8 @@
+.heroGradient {
+  background: linear-gradient(135deg, #180909 0%, var(--secondary) 50%, #090918 100%);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}

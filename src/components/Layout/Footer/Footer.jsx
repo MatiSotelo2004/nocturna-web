@@ -1,3 +1,4 @@
+import { Container, Row, Col } from "react-bootstrap";
 import TeamCard from "./TeamCard";
 
 const teamMembers = [
@@ -26,49 +27,55 @@ const teamMembers = [
 
 function Footer() {
   return (
-    <footer className="bg-primary items-center text-text-secondary p-9">
-      {/* SOBRE NOSOTROS */}
-      <div className="pb-6">
-        <h2 className="text-2xl text-accent-primary font-titulo tracking-widest text-center md:text-left">
-          NOCTURNA
-        </h2>
-        <div className="flex flex-col gap-3 justify-between items-center font-sans text-sm md:flex-row">
-          <p className="max-w-96 text-center lg:max-w-2xl md:text-left">
-            Somos una librería online especializada en literatura de fantasía,
-            terror, thriller y manga. Nacimos en 2026 con una misión simple:
-            poner el libro perfecto en las manos correctas.
-          </p>
-          <div className="flex flex-col">
-            <p>📍 Buenos Aires, Argentina</p>
-            <p>✉️ hola@nocturna.com.ar</p>
-            <p>📞 +54 11 4587-0010</p>
-          </div>
+    <footer className="bg-primary text-text-secondary py-5">
+      <Container>
+        {/* SOBRE NOSOTROS */}
+        <Row className="gy-4 align-items-center mb-4">
+          <Col xs={12} md={6}>
+            <h2 className="text-accent-primary font-serif tracking-widest mb-3">
+              NOCTURNA
+            </h2>
+            <p className="mb-0 text-text-secondary" style={{ maxWidth: "500px" }}>
+              Somos una librería online especializada en literatura de fantasía,
+              terror, thriller y manga. Nacimos en 2026 con una misión simple:
+              poner el libro perfecto en las manos correctas.
+            </p>
+          </Col>
+          <Col xs={12} md={6} className="d-flex flex-column gap-2 text-md-end text-start">
+            <div>📍 Buenos Aires, Argentina</div>
+            <div>✉️ hola@nocturna.com.ar</div>
+            <div>📞 +54 11 4587-0010</div>
+          </Col>
+        </Row>
+
+        <hr style={{ borderColor: "rgba(155, 151, 168, 0.15)" }} className="my-4" />
+
+        {/* NUESTRO EQUIPO */}
+        <div className="mb-4">
+          <h3 className="text-accent-primary text-center mb-4 font-serif">
+            NUESTRO EQUIPO
+          </h3>
+          <Row className="g-4">
+            {teamMembers.map((member) => (
+              <Col key={member.id} xs={12} md={4}>
+                <TeamCard {...member} />
+              </Col>
+            ))}
+          </Row>
         </div>
-      </div>
-      {/* DIVISOR */}
-      <div className="border-t border-t-gray-700 flex justify-between items-center pt-6"></div>
-      {/* NUESTRO EQUIPO */}
-      <div className="pb-6">
-        <h3 className="text-accent-primary text-lg text-center mb-6 ">
-          NUESTRO EQUIPO
-        </h3>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {teamMembers.map((member) => (
-            <TeamCard key={member.id} {...member} />
-          ))}
-        </div>
-      </div>
-      {/* DIVISOR */}
-      <div className="border-t border-t-gray-700 flex justify-between items-center pt-6"></div>
-      {/* DERECHOS RESERVADOS */}
-      <div className="flex justify-between">
-        <p className="text-sm text-text-secondary">
-          © 2026 Nocturna · Todos los derechos reservados
-        </p>
-        <p className="text-sm font-titulo text-accent-primary tracking-widest">
-          NOCTURNA
-        </p>
-      </div>
+
+        <hr style={{ borderColor: "rgba(155, 151, 168, 0.15)" }} className="my-4" />
+
+        {/* DERECHOS RESERVADOS */}
+        <Row className="align-items-center gy-2">
+          <Col xs={12} sm={6} className="text-center text-sm-start text-text-secondary text-sm">
+            © 2026 Nocturna · Todos los derechos reservados
+          </Col>
+          <Col xs={12} sm={6} className="text-center text-sm-end text-accent-primary font-serif tracking-widest">
+            NOCTURNA
+          </Col>
+        </Row>
+      </Container>
     </footer>
   );
 }

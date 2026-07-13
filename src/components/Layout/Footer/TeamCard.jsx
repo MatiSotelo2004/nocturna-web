@@ -1,10 +1,33 @@
 const TeamCard = ({ nombre, rol, bio, iniciales }) => {
   return (
-    <div className="rounded-lg text-center bg-secondary border border-gray-700 p-6 flex flex-col items-center">
-      <div className="w-14 h-14 rounded-4xl border border-accent-primary bg-amber-800/15 items-center text-accent-primary justify-center flex mb-3.5">{iniciales}</div>
-      <h4 className="text-text-primary">{nombre}</h4>
-      <p className="text-accent-primary tracking-wide uppercase text-xs">{rol}</p>
-      <p >{bio}</p>
+    <div 
+      className="card text-center bg-secondary p-4 h-100 d-flex flex-column align-items-center"
+      style={{ border: "1px solid rgba(155, 151, 168, 0.15)" }}
+    >
+      <div 
+        className="d-flex align-items-center justify-content-center mb-3"
+        style={{ 
+          width: "56px", 
+          height: "56px", 
+          borderRadius: "50%", 
+          border: "1px solid var(--accent-gold)", 
+          backgroundColor: "rgba(201, 168, 76, 0.15)", 
+          color: "var(--accent-gold)", 
+          fontWeight: "bold"
+        }}
+      >
+        {iniciales}
+      </div>
+      <h4 className="text-light mb-1 h5">{nombre}</h4>
+      <p 
+        className="text-accent-primary text-uppercase mb-3 fw-semibold"
+        style={{ fontSize: "0.75rem", letterSpacing: "1.5px" }}
+      >
+        {rol}
+      </p>
+      <p className="text-text-secondary mb-0 text-sm" style={{ fontSize: "0.85rem" }}>
+        {bio}
+      </p>
     </div>
   );
 };

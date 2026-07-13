@@ -1,58 +1,48 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import CartWidget from "./CartWidget";
 import { useState } from "react";
+import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import styles from "./Header.module.css";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Header() {
+  const location = useLocation();
+  const isUserActive = ["/auth", "/dashboard", "/admin"].includes(
+    location.pathname,
+  );
+
   const linkClass = ({ isActive }) =>
-    `${isActive ? "text-accent-primary font-bold " : "hover:text-accent-primary transition-all duration-300"}`;
+    `${styles.navLinkCustom} ${isActive ? "active" : ""}`;
 
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
 
+  //AUTH
+  const { user } = useAuth();
   return (
-    <header className="bg-primary items-center p-6 sticky top-0 z-50 ">
+    <header className="bg-primary p-4 sticky-top z-3">
       {/* CONTENEDOR PRINCIPAL */}
-      <div className="flex justify-between items-center">
+      <div className="container-fluid d-flex justify-content-between align-items-center">
         {/* BOTON PARA ABRIR MENU (DISPOSITIVOS MOVILES) */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="text-text-secondary hover:text-accent-primary transition-colors focus:outline-none md:hidden cursor-pointer"
+          className="btn text-text-secondary d-md-none border-0 p-0"
           aria-label="Abrir menú"
+          style={{ fontSize: "1.5rem" }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-7 w-7"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            {isOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
+          {isOpen ? <FaTimes /> : <FaBars />}
         </button>
 
         {/* LOGO */}
-        <Link to={"/"} onClick={closeMenu}>
-          <span className="text-accent-primary font-titulo tracking-widest text-4xl">
+        <Link to={"/"} onClick={closeMenu} className="text-decoration-none">
+          <span className="text-accent-primary font-serif fs-2 tracking-wider fw-bold">
             NOCTURNA
           </span>
         </Link>
 
         {/* NAVBAR ESCRITORIO */}
-        <nav className="text-text-secondary hidden md:flex font-sans">
-          <ul className="flex gap-10">
+        <nav className="d-none d-md-flex align-items-center">
+          <ul className="d-flex gap-4 list-unstyled mb-0">
             <li>
               <NavLink to={"/"} className={linkClass}>
                 Inicio
@@ -72,45 +62,79 @@ export default function Header() {
         </nav>
 
         {/* ICONOS DERECHA */}
-        <CartWidget />
+        <div className="d-flex align-items-center gap-3">
+          <Link
+            to="/auth"
+            className="text-text-secondary d-none d-md-inline"
+            style={{ fontSize: "1.3rem" }}
+          >
+            {user ? (
+              <FaUser
+                className={`${styles.navIcons} ${isUserActive ? "active" : ""}`}
+              />
+            ) : (
+              <button
+                className={`${styles.loginBtn} ${isUserActive ? "active" : ""}`}
+              >
+                Iniciar Sesión
+              </button>
+            )}
+          </Link>
+          <CartWidget />
+        </div>
       </div>
 
       {/* MENU SECUNDARIO (DISPOSITIVOS MOVILES) */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen
-            ? "max-h-60 opacity-100 mt-4"
-            : "max-h-0 opacity-0 pointer-events-none"
-        }`}
-      >
-        <nav className="text-text-secondary pt-4">
-          <ul className="flex flex-col gap-4 text-center pb-2">
-            <li>
-              <NavLink to={"/"} className={linkClass} onClick={closeMenu}>
-                Inicio
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={"/productos"}
-                className={linkClass}
-                onClick={closeMenu}
-              >
-                Productos
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={"/sobre-nosotros"}
-                className={linkClass}
-                onClick={closeMenu}
-              >
-                Sobre Nosotros
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      {isOpen && (
+        <div className="d-md-none">
+          <nav className="text-text-secondary">
+            <ul className="d-flex flex-column gap-3 text-center pb-2 list-unstyled mt-3 mb-0">
+              <li>
+                <NavLink to={"/"} className={linkClass} onClick={closeMenu}>
+                  Inicio
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/productos"}
+                  className={linkClass}
+                  onClick={closeMenu}
+                >
+                  Productos
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/sobre-nosotros"}
+                  className={linkClass}
+                  onClick={closeMenu}
+                >
+                  Sobre Nosotros
+                </NavLink>
+              </li>
+              <li>
+                {user ? (
+                  <NavLink
+                    to={"/dashboard"}
+                    className={linkClass}
+                    onClick={closeMenu}
+                  >
+                    Mi Cuenta
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    to={"/auth"}
+                    className={linkClass}
+                    onClick={closeMenu}
+                  >
+                    Iniciar Sesión
+                  </NavLink>
+                )}
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
