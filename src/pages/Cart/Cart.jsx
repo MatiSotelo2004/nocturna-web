@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { useEffect } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { Helmet } from "react-helmet-async";
 import {
   FaTrash,
   FaShoppingCart,
@@ -23,16 +23,16 @@ export default function Cart() {
     getCartQuantity,
   } = useCart();
 
-  useEffect(() => {
-    document.title = "Tu Carrito | Nocturna";
-  }, []);
-
   if (cart.length === 0) {
     return (
       <Container
         className="py-5 text-center transicion-pagina d-flex flex-column align-items-center justify-content-center"
         style={{ minHeight: "60vh" }}
       >
+        <Helmet>
+          <title>Tu Carrito | Nocturna</title>
+          <meta name="description" content="Revisa tu carrito de compras en Nocturna." />
+        </Helmet>
         <FaShoppingCart
           className="text-text-secondary mb-4"
           style={{ fontSize: "4rem", opacity: 0.3 }}
@@ -54,6 +54,10 @@ export default function Cart() {
 
   return (
     <section className="py-5">
+      <Helmet>
+        <title>Tu Carrito | Nocturna</title>
+        <meta name="description" content="Revisa tu carrito de compras de Nocturna y prepárate para finalizar tu pedido." />
+      </Helmet>
       <Container className="transicion-pagina">
         <h1 className="font-serif text-light mb-5">Carrito de compras</h1>
 

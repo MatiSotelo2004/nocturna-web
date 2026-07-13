@@ -4,6 +4,7 @@ import { useCart } from "../../context/CartContext";
 import { getProductById } from "../../services/productService";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { FaMinus, FaPlus, FaShoppingBag, FaArrowLeft } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -14,17 +15,12 @@ export default function ProductDetail() {
   const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
-    document.title = "Cargando libro... | Nocturna";
     getProductById(id)
       .then((datos) => {
         setProducto(datos);
-        if (datos && datos.titulo) {
-          document.title = `${datos.titulo} | Nocturna`;
-        }
       })
       .catch((error) => {
         setError(error.message);
-        document.title = "Error | Nocturna";
       })
       .finally(() => {
         setCargando(false);
@@ -55,6 +51,9 @@ export default function ProductDetail() {
   if (cargando) {
     return (
       <Container className="py-5 text-center text-text-secondary">
+        <Helmet>
+          <title>Cargando libro... | Nocturna</title>
+        </Helmet>
         <Spinner animation="border" variant="warning" role="status">
           <span className="visually-hidden">Cargando...</span>
         </Spinner>
@@ -66,6 +65,9 @@ export default function ProductDetail() {
   if (error) {
     return (
       <Container className="py-5 text-center text-text-secondary">
+        <Helmet>
+          <title>Error | Nocturna</title>
+        </Helmet>
         <p className="h5 text-danger mb-4">{error}</p>
         <Link to="/productos" className="btn btn-outline-gold d-inline-flex align-items-center gap-2">
           <FaArrowLeft />
@@ -77,6 +79,12 @@ export default function ProductDetail() {
 
   return (
     <section className="py-5">
+      {producto && (
+        <Helmet>
+          <title>{`${producto.titulo} | Nocturna`}</title>
+          <meta name="description" content={`Detalles y precio del libro "${producto.titulo}" de ${producto.autor} en Nocturna.`} />
+        </Helmet>
+      )}
       <Container className="transicion-pagina">
         {/* BREADCRUMB */}
         <nav className="text-text-secondary small mb-4 d-flex align-items-center gap-2">

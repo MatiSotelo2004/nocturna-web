@@ -22,9 +22,7 @@ export const PrivateRoutes = () => {
 };
 
 export const AdminRoutes = () => {
-  const { user, loading, isAdmin, userData } = useAuth();
-  console.log(userData);
-  console.log("isAdmin:", isAdmin);
+  const { user, loading, isAdmin } = useAuth();
   if (loading) {
     return (
       <div

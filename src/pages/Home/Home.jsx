@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import Item from "../../components/Item/Item";
 import { Link } from "react-router-dom";
-// BOOTSTRAP
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { FaArrowRight } from "react-icons/fa";
-// FIRESTORE
 import { getDocs, collection, query, orderBy, limit } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import { Helmet } from "react-helmet-async";
 
 import styles from "./Home.module.css";
 
@@ -17,8 +16,6 @@ export default function Home() {
   const PROD_DESTACADOS = 4;
 
   useEffect(() => {
-    document.title = "Nocturna | Librería Online para Noctámbulos";
-
     const getDestacados = async () => {
       setCargando(true);
       try {
@@ -49,6 +46,9 @@ export default function Home() {
   if (error) {
     return (
       <Container className="py-5 text-center">
+        <Helmet>
+          <title>Error | Nocturna</title>
+        </Helmet>
         <p className="text-danger h5">Error: {error}</p>
       </Container>
     );
@@ -56,6 +56,10 @@ export default function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>Nocturna | Librería Online para Noctámbulos</title>
+        <meta name="description" content="Nocturna es la librería online perfecta para los amantes de la fantasía, el terror, los thrillers intensos y el buen manga." />
+      </Helmet>
       {/* ── HERO ── */}
       <section className={styles.heroGradient}>
         <Container

@@ -1,16 +1,78 @@
 # ✦ Nocturna - Librería Online ✦
 
-¡Bienvenidos a **Nocturna**! Este es mi proyecto desarrollado para la preentrega del curso de **React JS**. Se trata de una e-commerce pensada especialmente para quienes disfrutamos de leer cuando el mundo duerme: amantes de la literatura de fantasía, terror, thrillers intensos y buen manga.
+¡Bienvenidos a **Nocturna**! Una plataforma de comercio electrónico diseñada especialmente para quienes disfrutan de leer cuando el mundo duerme: amantes de la literatura de fantasía, terror, thrillers intensos, cómics y manga.
 
-## 🚀 Sobre el proyecto
+## 🎯 Misión del Proyecto
 
-Este proyecto nació con el objetivo de aplicar los conceptos fundamentales de React de una manera práctica y real. En lugar de hacer una tienda genérica, quise darle una identidad oscura, elegante y con mucha personalidad.
-¡Es muy emocionante ver cómo todo cobra vida con unas pocas líneas de código!
+La misión de **Nocturna** es ofrecer una experiencia de compra inmersiva, elegante y con personalidad propia, alejándose de las tiendas genéricas. El proyecto busca conectar de manera fluida a lectores apasionados con su próxima gran historia nocturna, garantizando una navegación intuitiva y una interfaz optimizada para todo tipo de dispositivos.
 
-### 🛠️ Lo que fui aprendiendo e implementando:
+---
 
-* **Componentes Reutilizables:** Estructuré la web dividiéndola en piezas lógicas (como `Item`, `ItemList`, `Header`, `Footer`), aprendiendo a pasarles datos de forma eficiente a través de *props*.
-* **Manejo de Estado (`useState`) y Efectos (`useEffect`):** Implementé la carga de productos simulando una base de datos real mediante un archivo `productos.json` local usando `fetch`.
-* **Enrutamiento Dinámico (`react-router-dom`):** Logré que la aplicación se sienta como una verdadera *Single Page Application* (SPA), navegando fluidamente entre la página de Inicio, el Catálogo completo y el Detalle personalizado de cada libro mediante rutas con parámetros (`/producto/:id`).
-* **Contexto Global (`Context API`):** Uno de los mayores desafíos del curso. Creé un `CartContext` centralizado para manejar el estado del carrito de compras desde cualquier rincón de la app sin tener que pasar funciones de componente en componente (*prop drilling*).
-* **Estilos Modernos:** Utilicé **Tailwind CSS v4** para armar una interfaz oscura, limpia y con animaciones suaves al pasar el cursor sobre las portadas de los libros.
+## 🛠️ Tecnologías Utilizadas
+
+El proyecto fue desarrollado utilizando el siguiente ecosistema técnico:
+
+*   **Core**: React + Vite
+*   **Diseño y Maquetación**: React-Bootstrap + Bootstrap 5
+*   **Base de Datos y Autenticación**: [Firebase](https://firebase.google.com/) (Autenticación de usuarios con Firebase Auth y base de datos con Firestore para el catálogo y usuarios).
+*   **Manejo de Estados Globals**: **Context API** (Uso de `CartContext` para el flujo del carrito de compras y `SearchContext` para el filtrado global de productos).
+*   **Enrutamiento**: React Router DOM
+*   **Optimización de SEO y Metadatos**: React Helmet Async
+*   **Iconografía**: [React Icons](https://react-icons.github.io/react-icons/)
+
+---
+
+## 🚀 Instalación y Ejecución Local
+
+Para instalar y correr este proyecto de forma local, sigue estos pasos:
+
+### Prerrequisitos
+Tener instalado [Node.js](https://nodejs.org/) y un gestor de paquetes (`npm` o `pnpm`).
+
+### Paso 1: Clonar el repositorio
+```bash
+git clone https://github.com/MatiSotelo2004/nocturna-web.git
+cd nocturna-web
+```
+
+### Paso 2: Instalar las dependencias
+Si usas `pnpm`:
+```bash
+pnpm install
+```
+Si usas `npm`:
+```bash
+npm install
+```
+
+### Paso 3: Configurar las variables de entorno
+Crea un archivo llamado `.env` en la raíz del proyecto basándote en `.env.example` y rellena las credenciales correspondientes a tu proyecto de Firebase:
+```env
+VITE_FIREBASE_API_KEY=tu_api_key
+VITE_FIREBASE_AUTH_DOMAIN=tu_auth_domain
+VITE_FIREBASE_PROJECT_ID=tu_project_id
+VITE_FIREBASE_STORAGE_BUCKET=tu_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=tu_messaging_sender_id
+VITE_FIREBASE_APP_ID=tu_app_id
+VITE_FIREBASE_MEASUREMENT_ID=tu_measurement_id
+```
+
+### Paso 4: Iniciar el servidor de desarrollo
+Si usas `pnpm`:
+```bash
+pnpm run dev
+```
+Si usas `npm`:
+```bash
+npm run dev
+```
+Abre tu navegador en `http://localhost:5173` para explorar Nocturna.
+
+---
+
+## 🔑 Credenciales de Prueba (Evaluación / Admin)
+
+> [!NOTE]
+> Para poder acceder al panel de administrador (CRUD de productos), puedes utilizar las siguientes credenciales de prueba:
+> - **Usuario / Email**: `admin@nocturna.com`
+> - **Contraseña**: `admin1234`

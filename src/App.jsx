@@ -5,6 +5,7 @@ import {
   AdminRoutes,
   RedirectIfLoggedIn,
 } from "./components/ProtectedRoutes";
+import { SearchProvider } from "./context/SearchContext";
 
 // PAGES
 import Home from "./pages/Home/Home";
@@ -19,8 +20,9 @@ import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
+    <SearchProvider>
+      <Routes>
+        <Route element={<Layout />}>
         {/* RUTAS PUBLICAS */}
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<Products />} />
@@ -45,6 +47,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
+    </SearchProvider>
   );
 }
 

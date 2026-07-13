@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { Helmet } from "react-helmet-async";
 
 const valores = [
   {
@@ -20,12 +20,12 @@ const valores = [
 ];
 
 export default function AboutUs() {
-  useEffect(() => {
-    document.title = "Sobre Nosotros | Nocturna";
-  }, []);
-
   return (
     <>
+      <Helmet>
+        <title>Sobre Nosotros | Nocturna</title>
+        <meta name="description" content="Conoce la historia de Nocturna, una librería online fundada con la misión de conectar lectores noctámbulos con historias increíbles." />
+      </Helmet>
       {/* ── HERO ── */}
       <section 
         className="py-5"
