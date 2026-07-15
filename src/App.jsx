@@ -17,36 +17,38 @@ import Auth from "./pages/Auth/Auth";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Admin from "./pages/Admin/Admin";
 import NotFound from "./pages/NotFound/NotFound";
+import GestiondDeCupones from "./pages/GestionDeCupones/GestionDeCupones";
 
 function App() {
   return (
     <SearchProvider>
       <Routes>
         <Route element={<Layout />}>
-        {/* RUTAS PUBLICAS */}
-        <Route path="/" element={<Home />} />
-        <Route path="/productos" element={<Products />} />
-        <Route path="/sobre-nosotros" element={<AboutUs />} />
-        <Route path="/producto/:id" element={<ProductDetail />} />
-        <Route path="/carrito" element={<Cart />} />
+          {/* RUTAS PUBLICAS */}
+          <Route path="/" element={<Home />} />
+          <Route path="/productos" element={<Products />} />
+          <Route path="/sobre-nosotros" element={<AboutUs />} />
+          <Route path="/producto/:id" element={<ProductDetail />} />
+          <Route path="/carrito" element={<Cart />} />
 
-        {/* SI ESTA LOGUEADO */}
-        <Route element={<RedirectIfLoggedIn />}>
-          <Route path="/auth" element={<Auth />} />
-        </Route>
+          {/* SI ESTA LOGUEADO */}
+          <Route element={<RedirectIfLoggedIn />}>
+            <Route path="/auth" element={<Auth />} />
+          </Route>
 
-        {/* RUTAS PROTEGIDAS */}
-        <Route element={<PrivateRoutes />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* RUTAS PROTEGIDAS */}
+          <Route element={<PrivateRoutes />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+          <Route element={<AdminRoutes />}>
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/gestion-cupones" element={<GestiondDeCupones />} />
+          </Route>
+
+          {/* COMPONENTE CATCH-ALL PARA RUTAS INEXISTENTES */}
+          <Route path="*" element={<NotFound />} />
         </Route>
-        <Route element={<AdminRoutes />}>
-          <Route path="/admin" element={<Admin />} />
-        </Route>
-        
-        {/* COMPONENTE CATCH-ALL PARA RUTAS INEXISTENTES */}
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+      </Routes>
     </SearchProvider>
   );
 }
