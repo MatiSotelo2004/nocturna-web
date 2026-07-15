@@ -27,34 +27,53 @@ export default function Item({
   };
   const { addToCart } = useCart();
 
+  const isOutOfStock = stock <= 0;
+
   const handleAddToCart = (e) => {
     e.preventDefault(); // Evita navegar al detalle si se hace click en comprar
+    if (isOutOfStock) return;
     addToCart(producto, 1);
     alert(`Agregaste 1 copia de "${producto.titulo}" al carrito.`);
   };
 
   return (
-    <div className={styles.bookCard}>
+    <div className={`${styles.bookCard} ${isOutOfStock ? styles.outOfStockCard : ""}`}>
       {/* PORTADA */}
       <Link to={`/producto/${id}`} className="text-decoration-none position-relative d-block">
-        <div style={{ aspectRatio: "2/3", overflow: "hidden" }}>
+        <div style={{ aspectRatio: "2/3", overflow: "hidden", position: "relative" }}>
           <img
             src={imagen}
             alt={titulo}
             className="w-100 h-100 object-fit-cover"
+            style={isOutOfStock ? { filter: "grayscale(1) brightness(0.4)" } : {}}
           />
+          {isOutOfStock ? (
+            <div 
+              className="position-absolute top-50 start-50 translate-middle badge bg-danger text-light px-3 py-2 fw-bold"
+              style={{ 
+                fontSize: "0.85rem",
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
+                borderRadius: "4px"
+              }}
+            >
+              Sin Stock
+            </div>
+          ) : (
+            <span 
+              className="position-absolute top-0 end-0 m-2 badge"
+              style={{ 
+                backgroundColor: "rgba(0, 0, 0, 0.75)", 
+                color: "var(--accent-gold)",
+                border: "1px solid rgba(201, 168, 76, 0.3)",
+                textTransform: "capitalize"
+              }}
+            >
+              {tipo}
+            </span>
+          )}
         </div>
-        <span 
-          className="position-absolute top-0 end-0 m-2 badge"
-          style={{ 
-            backgroundColor: "rgba(0, 0, 0, 0.75)", 
-            color: "var(--accent-gold)",
-            border: "1px solid rgba(201, 168, 76, 0.3)",
-            textTransform: "capitalize"
-          }}
-        >
-          {tipo}
-        </span>
       </Link>
 
       {/* INFO PROD */}
@@ -92,10 +111,20 @@ export default function Item({
 
           <button
             onClick={handleAddToCart}
-            className="btn btn-gold w-100 mt-3 d-flex align-items-center justify-content-center gap-2"
+            className={`btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2 ${
+              isOutOfStock ? "btn-secondary disabled" : "btn-gold"
+            }`}
+            disabled={isOutOfStock}
+            style={isOutOfStock ? { backgroundColor: "rgba(155, 151, 168, 0.2)", color: "var(--text-muted)", border: "none" } : {}}
           >
-            <FaShoppingBag style={{ fontSize: "0.9rem" }} />
-            <span>Comprar</span>
+            {isOutOfStock ? (
+              <span>Sin Stock</span>
+            ) : (
+              <>
+                <FaShoppingBag style={{ fontSize: "0.9rem" }} />
+                <span>Comprar</span>
+              </>
+            )}
           </button>
         </div>
       </div>
