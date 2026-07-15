@@ -10,6 +10,7 @@ import { db } from "../../firebase/config";
 import ProductForm from "../../components/ProductForm/ProductForm";
 import { getProducts } from "../../services/productService";
 import { Container, Table, Button, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function Admin() {
   const [dataForm, setDataForm] = useState({
@@ -194,15 +195,20 @@ export default function Admin() {
       >
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="text-accent-primary">Panel de Administración</h2>
-          <Button
-            className="btn-gold"
-            onClick={() => {
-              setIsEditMode(false);
-              setShowForm(true);
-            }}
-          >
-            Agregar Producto
-          </Button>
+          <div className="d-flex gap-3">
+            <Link to="/gestion-cupones">
+              <Button className="btn-gold">Gestionar Cupones</Button>
+            </Link>
+            <Button
+              className="btn-gold"
+              onClick={() => {
+                setIsEditMode(false);
+                setShowForm(true);
+              }}
+            >
+              Agregar Producto
+            </Button>
+          </div>
         </div>
 
         {loading ? (
@@ -227,12 +233,7 @@ export default function Admin() {
               boxShadow: "0 12px 40px rgba(0, 0, 0, 0.4)",
             }}
           >
-            <Table
-              hover
-              variant="dark"
-              className="align-middle mb-0"
-              
-            >
+            <Table hover variant="dark" className="align-middle mb-0">
               <thead>
                 <tr className="text-accent-primary">
                   <th>Imagen</th>

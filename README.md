@@ -14,7 +14,7 @@ El proyecto fue desarrollado utilizando el siguiente ecosistema técnico:
 
 *   **Core**: React + Vite
 *   **Diseño y Maquetación**: React-Bootstrap + Bootstrap 5
-*   **Base de Datos y Autenticación**: [Firebase](https://firebase.google.com/) (Autenticación de usuarios con Firebase Auth y base de datos con Firestore para el catálogo y usuarios).
+*   **Base de Datos y Autenticación**: [Firebase](https://firebase.google.com/) (Autenticación de usuarios con Firebase Auth y base de datos con Firestore para el catálogo, usuarios y gestión de cupones).
 *   **Manejo de Estados Globals**: **Context API** (Uso de `CartContext` para el flujo del carrito de compras y `SearchContext` para el filtrado global de productos).
 *   **Enrutamiento**: React Router DOM
 *   **Optimización de SEO y Metadatos**: React Helmet Async
@@ -70,9 +70,16 @@ Abre tu navegador en `http://localhost:5173` para explorar Nocturna.
 
 ---
 
-## 🔑 Credenciales de Prueba (Evaluación / Admin)
+## 🔑 Credenciales de Prueba y Cupones (Evaluación / Admin)
 
 > [!NOTE]
-> Para poder acceder al panel de administrador (CRUD de productos), puedes utilizar las siguientes credenciales de prueba:
+> Para poder acceder al panel de administrador (CRUD de productos y Gestión de cupones), puedes utilizar las siguientes credenciales de prueba:
 > - **Usuario / Email**: `admin@nocturna.com`
 > - **Contraseña**: `admin1234`
+
+### 🎫 Cupones de Descuento para Pruebas
+
+Se ha integrado un sistema de cupones funcionales en el carrito de compras que obtiene y valida la información directamente desde Firestore.
+
+Para probar la funcionalidad en el carrito, puedes utilizar el siguiente cupón activo:
+*   **Cupón de prueba**: `ARGENTINA` (ej. `INVIERNO26` o cualquier código creado en la sección de administración)
