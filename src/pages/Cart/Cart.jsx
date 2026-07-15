@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
+import { db } from "../../firebase/config";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import {
   FaTrash,
   FaShoppingCart,
@@ -22,6 +25,53 @@ export default function Cart() {
     incrementCart,
     getCartQuantity,
   } = useCart();
+
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState("");
+  const [couponSuccess, setCouponSuccess] = useState("");
+  const [loadingCoupon, setLoadingCoupon] = useState(false);
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setLoadingCoupon(true);
+    setCouponError("");
+    setCouponSuccess("");
+    try {
+      const q = query(
+        collection(db, "cupones"),
+        where("codigo", "==", couponCode.trim().toUpperCase())
+      );
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        setCouponError("El cupón ingresado no es válido.");
+        setAppliedCoupon(null);
+      } else {
+        const couponDoc = querySnapshot.docs[0];
+        const couponData = { id: couponDoc.id, ...couponDoc.data() };
+        setAppliedCoupon(couponData);
+        setCouponSuccess(`Cupón "${couponData.codigo}" aplicado con éxito.`);
+      }
+    } catch (error) {
+      console.error("Error al validar cupón: ", error);
+      setCouponError("Error al validar el cupón. Inténtalo de nuevo.");
+    } finally {
+      setLoadingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+    setCouponSuccess("");
+    setCouponError("");
+  };
+
+  const subtotal = getCartTotal();
+  const discountAmount = appliedCoupon
+    ? (subtotal * Number(appliedCoupon.descuento)) / 100
+    : 0;
+  const finalTotal = subtotal - discountAmount;
 
   if (cart.length === 0) {
     return (
@@ -167,8 +217,56 @@ export default function Cart() {
 
               <div className="d-flex justify-content-between mb-3 text-text-secondary">
                 <span>Subtotal ({getCartQuantity()} productos)</span>
-                <span>${getCartTotal().toLocaleString("es-AR")}</span>
+                <span>${subtotal.toLocaleString("es-AR")}</span>
               </div>
+
+              {/* Cupón de descuento */}
+              <div className="mb-4 border-top pt-3" style={{ borderColor: "rgba(155, 151, 168, 0.15)" }}>
+                <label className="text-text-secondary small mb-2 d-block">¿Tenés un cupón de descuento?</label>
+                <div className="d-flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Ingresar código"
+                    className="form-control customInput py-2 px-3 flex-grow-1"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    disabled={appliedCoupon || loadingCoupon}
+                    style={{ textTransform: "uppercase" }}
+                  />
+                  {appliedCoupon ? (
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger px-3 py-2"
+                      onClick={handleRemoveCoupon}
+                      style={{ borderRadius: "30px" }}
+                    >
+                      Quitar
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-gold px-3 py-2"
+                      onClick={handleApplyCoupon}
+                      disabled={loadingCoupon || !couponCode.trim()}
+                    >
+                      {loadingCoupon ? "..." : "Aplicar"}
+                    </button>
+                  )}
+                </div>
+                {couponError && (
+                  <div className="text-danger small mt-2">{couponError}</div>
+                )}
+                {couponSuccess && (
+                  <div className="text-success small mt-2">{couponSuccess}</div>
+                )}
+              </div>
+
+              {appliedCoupon && (
+                <div className="d-flex justify-content-between mb-3 text-success small">
+                  <span>Descuento ({appliedCoupon.descuento}%)</span>
+                  <span>-${discountAmount.toLocaleString("es-AR")}</span>
+                </div>
+              )}
 
               <div
                 className="d-flex justify-content-between mb-4 border-top pt-3"
@@ -176,7 +274,7 @@ export default function Cart() {
               >
                 <span className="fw-semibold">Total</span>
                 <span className="text-accent-primary fw-bold h4 mb-0">
-                  ${getCartTotal().toLocaleString("es-AR")}
+                  ${finalTotal.toLocaleString("es-AR")}
                 </span>
               </div>
 
@@ -184,8 +282,13 @@ export default function Cart() {
                 <button
                   className="btn btn-gold w-100 py-3 d-flex align-items-center justify-content-center gap-2"
                   onClick={() => {
-                    alert("¡Gracias por su compra!");
+                    if (appliedCoupon) {
+                      alert(`¡Gracias por su compra! Se ha aplicado un descuento del ${appliedCoupon.descuento}% con el cupón "${appliedCoupon.codigo}". Total a abonar: $${finalTotal.toLocaleString("es-AR")}`);
+                    } else {
+                      alert("¡Gracias por su compra!");
+                    }
                     clearCart();
+                    handleRemoveCoupon();
                   }}
                 >
                   <FaCreditCard />
@@ -193,7 +296,10 @@ export default function Cart() {
                 </button>
 
                 <button
-                  onClick={clearCart}
+                  onClick={() => {
+                    clearCart();
+                    handleRemoveCoupon();
+                  }}
                   className="btn btn-outline-danger w-100 py-2 mt-2"
                   style={{ borderRadius: "30px" }}
                 >
