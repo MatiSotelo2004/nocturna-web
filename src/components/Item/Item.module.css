@@ -12,3 +12,13 @@
   box-shadow: 0 15px 35px rgba(139, 32, 53, 0.15);
   transform: translateY(-6px) scale(1.02) !important;
 }
+
+.outOfStockCard {
+  opacity: 0.75;
+}
+
+.outOfStockCard:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+  border-color: rgba(155, 151, 168, 0.15) !important;
+}
