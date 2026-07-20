@@ -1,12 +1,12 @@
 import { Form, Button, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import styles from "./AuthContainer.module.css";
-import { useState, SubmitEvent } from "react";
+import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
-type RegisterFormProps = {
+interface RegisterFormProps {
   onSwitchToLogin: () => void;
-};
+}
 
 export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
   const { signup, loading } = useAuth();
@@ -18,7 +18,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
     username: "",
   });
 
-  const handleSignUp = async (e: SubmitEvent) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (dataForm.pass === dataForm.confirmPass) {
       try {

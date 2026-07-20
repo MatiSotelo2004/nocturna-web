@@ -1,16 +1,13 @@
-import { useState, useRef, useEffect, ChangeEvent, SubmitEvent } from "react";
+import { useState, useRef, useEffect, ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Spinner } from "react-bootstrap";
-import {
-  addDoc,
-  collection,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import { db } from "@/firebase/config";
 import ProductForm from "@/components/ProductForm/ProductForm";
-import { getProducts } from "@/services/productService";
+import {
+  getProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from "@/services/productService";
 import ProductTable from "@/components/Admin/ProductTable";
 import { Product } from "@/types";
 
@@ -62,7 +59,7 @@ export default function Admin() {
       });
   }, []);
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
 
@@ -108,14 +105,13 @@ export default function Admin() {
 
       if (isEditMode && editingProductId) {
         // Actualizar el documento en Firestore
-        const docRef = doc(db, "productos", editingProductId);
-        await updateDoc(docRef, dataToSave);
+        await updateProduct(editingProductId, dataToSave);
         console.log("Documento actualizado con ID: ", editingProductId);
         alert("Producto actualizado exitosamente!");
       } else {
         // Agregar el documento a Firestore
-        const docRef = await addDoc(collection(db, "productos"), dataToSave);
-        console.log("Documento agregado con ID: ", docRef.id);
+        const newDocId = await createProduct(dataToSave);
+        console.log("Documento agregado con ID: ", newDocId);
         alert("Producto agregado exitosamente!");
       }
 
@@ -167,8 +163,7 @@ export default function Admin() {
     if (window.confirm("¿Está seguro de que desea eliminar este producto?")) {
       try {
         setLoading(true);
-        const docRef = doc(db, "productos", productId);
-        await deleteDoc(docRef);
+        await deleteProduct(productId);
         console.log("Documento eliminado con ID: ", productId);
 
         // Actualizar el estado local

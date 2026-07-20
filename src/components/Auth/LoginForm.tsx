@@ -2,11 +2,11 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import { FaSignInAlt } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 import styles from "./AuthContainer.module.css";
-import { SubmitEvent, useState } from "react";
+import { useState } from "react";
 
-type LoginFormProps = {
+interface LoginFormProps {
   onSwitchToRegister: () => void;
-};
+}
 export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
   const { login, loading } = useAuth();
 
@@ -14,7 +14,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
     email: "",
     pass: "",
   });
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await login(dataForm.email, dataForm.pass);

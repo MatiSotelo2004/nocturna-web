@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect, FormEvent } from "react";
 import { db } from "@/firebase/config";
 import {
   getDocs,
@@ -7,12 +7,11 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { useEffect, SubmitEvent } from "react";
 import CouponItem from "@/components/Coupons/CouponItem";
 import CouponForm from "@/components/Coupons/CouponForm";
 import { Coupon } from "@/types";
 
-export default function GestiondDeCupones() {
+export default function GestionDeCupones() {
   const [cupones, setCupones] = useState<Coupon[]>([]);
   const [newCupon, setNewCupon] = useState({
     codigo: "",
@@ -21,7 +20,7 @@ export default function GestiondDeCupones() {
   const [crearCupon, setCrearCupon] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     try {
@@ -31,7 +30,7 @@ export default function GestiondDeCupones() {
       };
       const res = await addDoc(collection(db, "cupones"), dataToSave);
       console.log("Cupon agregado con el Id:", res.id);
-      alert("Cupon agregado con exito");
+      alert("Cupón agregado con éxito");
     } catch (e: any) {
       console.error(e.message);
     } finally {
@@ -45,7 +44,7 @@ export default function GestiondDeCupones() {
   };
 
   const handleDelete = async (cuponId: string) => {
-    if (window.confirm("¿Está seguro de que desea eliminar este producto?")) {
+    if (window.confirm("¿Está seguro de que desea eliminar este cupón?")) {
       try {
         const res = doc(db, "cupones", cuponId);
         await deleteDoc(res);
@@ -53,10 +52,10 @@ export default function GestiondDeCupones() {
 
         // Actualizar el estado local
         setCupones(cupones.filter((c: Coupon) => c.id !== cuponId));
-        alert("Producto eliminado exitosamente!");
+        alert("Cupón eliminado exitosamente!");
       } catch (error) {
-        console.error("Error al eliminar el producto: ", error);
-        alert("Error al eliminar el producto. Por favor, inténtelo de nuevo.");
+        console.error("Error al eliminar el cupón: ", error);
+        alert("Error al eliminar el cupón. Por favor, inténtelo de nuevo.");
       }
     }
   };

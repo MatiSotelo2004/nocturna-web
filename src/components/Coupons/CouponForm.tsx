@@ -1,17 +1,17 @@
-import { ChangeEvent, SubmitEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 
-type NewCouponType = {
+interface NewCouponType {
   codigo: string;
   descuento: string;
-};
+}
 
-type CouponFormProps = {
-  onSubmit: (e: SubmitEvent) => void;
+interface CouponFormProps {
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onCancel: () => void;
   submitting: boolean;
   coupon: NewCouponType;
-};
+}
 
 export default function CouponForm({
   onSubmit,

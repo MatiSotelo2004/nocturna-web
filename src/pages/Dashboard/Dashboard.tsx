@@ -58,7 +58,7 @@ export default function Dashboard() {
           <div className={styles.infoRow}>
             <span className={styles.infoLabel}>Tipo de Cuenta</span>
             <span className={styles.infoValue}>
-              {userData.isAdmin ? (
+              {userData?.isAdmin ? (
                 <span className={`${styles.roleBadge} ${styles.badgeAdmin}`}>
                   Administrador
                 </span>
@@ -73,7 +73,7 @@ export default function Dashboard() {
 
         {/* Botones */}
         <div className={styles.actionButtons}>
-          {userData.isAdmin && (
+          {userData?.isAdmin && (
             <Link
               to="/admin"
               className="btn btn-gold d-block w-100 text-center py-2 text-decoration-none"

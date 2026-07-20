@@ -12,14 +12,14 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useEffect } from "react";
 
 // INTERFACES
-type UserData = {
+export interface UserData {
   fullName: string;
   email: string;
   userName: string;
   isAdmin: boolean;
 }
 
-type AuthContextType = {
+export interface AuthContextType {
   user: FirebaseUser | null;
   login: (email: string, password: string) => Promise<UserCredential>;
   logout: () => Promise<void>;
@@ -33,7 +33,7 @@ type AuthContextType = {
   userData: UserData;
 }
 
-type AuthProviderProps = {
+export interface AuthProviderProps {
   children: ReactNode;
 }
 

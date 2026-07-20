@@ -1,10 +1,10 @@
 import { Coupon } from "@/types";
 import { FaTrash } from "react-icons/fa";
 
-type CouponItemProps = {
+interface CouponItemProps {
   coupon: Coupon;
   onDelete: (id: string) => void;
-};
+}
 
 export default function CouponItem({ coupon, onDelete }: CouponItemProps) {
   return (

@@ -1,7 +1,7 @@
 import { Container, Form, Button } from "react-bootstrap";
 import styles from "./ProductForm.module.css";
 import { Product } from "@/types";
-import { ChangeEvent, Ref, SubmitEvent } from "react";
+import { ChangeEvent, FormEvent, Ref } from "react";
 
 interface ProductFormData extends Omit<
   Product,
@@ -16,7 +16,7 @@ interface ProductFormProps {
   handleChange: (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => void;
-  handleSubmit: (e: SubmitEvent) => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   handleFile: (e: ChangeEvent<HTMLInputElement>) => void;
   isEditMode: boolean;
   loading: boolean;

@@ -10,7 +10,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-import App from "./App.jsx";
+import App from "./App";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>

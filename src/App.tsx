@@ -17,7 +17,7 @@ import Auth from "./pages/Auth/Auth";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Admin from "./pages/Admin/Admin";
 import NotFound from "./pages/NotFound/NotFound";
-import GestiondDeCupones from "./pages/GestionDeCupones/GestionDeCupones";
+import GestionDeCupones from "./pages/GestionDeCupones/GestionDeCupones";
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function App() {
           </Route>
           <Route element={<AdminRoutes />}>
             <Route path="/admin" element={<Admin />} />
-            <Route path="/gestion-cupones" element={<GestiondDeCupones />} />
+            <Route path="/gestion-cupones" element={<GestionDeCupones />} />
           </Route>
 
           {/* COMPONENTE CATCH-ALL PARA RUTAS INEXISTENTES */}

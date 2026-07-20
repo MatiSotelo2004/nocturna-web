@@ -1,4 +1,4 @@
-export type Product = {
+export interface Product {
   id: string;
   titulo: string;
   autor: string;
@@ -12,9 +12,14 @@ export type Product = {
   destacado?: boolean;
 }
 
-export type Coupon = {
-  id:string;
-  codigo:string;
-  descuento:number;
+export interface Coupon {
+  id: string;
+  codigo: string;
+  descuento: number;
 }
+
+export interface CartItem extends Product {
+  quantity: number;
+}
+
 

@@ -1,10 +1,11 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 
-type SearchContextType = {
+export interface SearchContextType {
   busqueda: string;
   setBusqueda: React.Dispatch<React.SetStateAction<string>>;
 }
-type SearchProviderProps = {
+
+export interface SearchProviderProps {
   children: ReactNode;
 }
 const SearchContext = createContext<SearchContextType | undefined>(undefined);

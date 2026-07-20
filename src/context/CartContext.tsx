@@ -5,12 +5,9 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { Product } from "@/types";
+import { Product, CartItem } from "@/types";
 
-type CartItem = Product & {
-  quantity: number;
-};
-type CartContextType = {
+export interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (productId: string) => void;
@@ -19,10 +16,11 @@ type CartContextType = {
   getCartTotal: () => number;
   substractCart: (itemId: string) => void;
   incrementCart: (itemId: string) => void;
-};
-type CartProviderProps = {
+}
+
+export interface CartProviderProps {
   children: ReactNode;
-};
+}
 
 export const CartContext = createContext<CartContextType | undefined>(
   undefined,

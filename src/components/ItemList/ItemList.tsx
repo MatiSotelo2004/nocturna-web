@@ -2,7 +2,11 @@ import { Row, Col } from "react-bootstrap";
 import Item from "@/components/Item/Item";
 import { Product } from "@/types";
 
-export default function ItemList(productos: Product[]) {
+interface ItemListProps {
+  productos: Product[];
+}
+
+export default function ItemList({ productos }: ItemListProps) {
   return (
     <Row className="g-4">
       {productos.map((prod) => (

@@ -35,7 +35,7 @@ export const AdminRoutes = () => {
       </div>
     );
   }
-  return user && userData.isAdmin ? <Outlet /> : <Navigate to="/dashboard" />;
+  return user && userData?.isAdmin ? <Outlet /> : <Navigate to="/dashboard" />;
 };
 
 export const RedirectIfLoggedIn = () => {

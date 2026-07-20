@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "@/context/CartContext";
 import { FaShoppingBag } from "react-icons/fa";
 import styles from "./Item.module.css";
 import { Product } from "@/types";
@@ -9,7 +9,7 @@ export default function Item(producto: Product) {
 
   const isOutOfStock = producto.stock <= 0;
 
-  const handleAddToCart = (e:any) => {
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Evita navegar al detalle si se hace click en comprar
     if (isOutOfStock) return;
     addToCart(producto, 1);

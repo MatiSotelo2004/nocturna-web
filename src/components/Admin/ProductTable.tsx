@@ -1,11 +1,11 @@
 import { Table, Button } from "react-bootstrap";
 import { Product } from "@/types";
 
-type ProductTableProps = {
+interface ProductTableProps {
   products: Product[];
   handleEdit: (product: Product) => void;
   handleDelete: (productId: string) => Promise<void>;
-};
+}
 
 export default function ProductTable({
   products,

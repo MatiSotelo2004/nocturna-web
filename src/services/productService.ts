@@ -6,7 +6,6 @@ import {
   QueryDocumentSnapshot,
   DocumentData,
   query,
-  where,
   addDoc,
   updateDoc,
   deleteDoc,
@@ -106,24 +105,7 @@ export const getProductById = async (id: string): Promise<Product | null> => {
   }
 };
 
-export const getProductsByCategory = async (
-  category: string,
-): Promise<Product[]> => {
-  try {
-    const q = query(
-      collection(db, PRODUCTS_COLLECTION),
-      where("categoria", "==", category),
-    );
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(mapDocumentToProducts);
-  } catch (error) {
-    console.error(
-      `Error al filtrar productos por categoría: ${category}`,
-      error,
-    );
-    throw error;
-  }
-};
+
 
 export const createProduct = async (
   productData: Omit<Product, "id">,
