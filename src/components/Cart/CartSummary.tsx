@@ -7,6 +7,7 @@ interface CartSummaryProps {
   discountAmount: number;
   finalTotal: number;
   quantity: number;
+  loading?: boolean;
   onCheckout: () => void;
   onClearCart: () => void;
   children?: React.ReactNode;
@@ -17,6 +18,7 @@ export default function CartSummary({
   discountAmount,
   finalTotal,
   quantity,
+  loading = false,
   onCheckout,
   onClearCart,
   children,
@@ -58,15 +60,26 @@ export default function CartSummary({
         <button
           className="btn btn-gold w-100 py-3 d-flex align-items-center justify-content-center gap-2"
           onClick={onCheckout}
+          disabled={loading}
         >
-          <FaCreditCard />
-          <span>Finalizar compra</span>
+          {loading ? (
+            <>
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span>Procesando compra...</span>
+            </>
+          ) : (
+            <>
+              <FaCreditCard />
+              <span>Finalizar compra</span>
+            </>
+          )}
         </button>
 
         <button
           onClick={onClearCart}
           className="btn btn-outline-danger w-100 py-2 mt-2"
           style={{ borderRadius: "30px" }}
+          disabled={loading}
         >
           Vaciar carrito
         </button>

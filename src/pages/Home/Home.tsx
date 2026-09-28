@@ -1,5 +1,6 @@
 import Item from "@/components/Item/Item";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import ItemListSkeleton from "@/components/ItemList/ItemListSkeleton";
+import { Container, Row, Col } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import HeroSection from "@/components/Home/HeroSection";
 import WhyNocturna from "@/components/Home/WhyNocturna";
@@ -43,17 +44,21 @@ export default function Home() {
             </div>
           </div>
           {isError && (
-            <h3 style={{ color: "red", textAlign: "center" }}>
-              Error al cargar los productos
-            </h3>
-          )}
-          {isLoading ? (
-            <div className="text-center py-5">
-              <Spinner animation="border" variant="warning" role="status">
-                <span className="visually-hidden">Cargando...</span>
-              </Spinner>
-              <p className="text-text-secondary mt-3">Cargando destacados...</p>
+            <div
+              className="text-center py-4 px-3 my-4 rounded"
+              style={{
+                backgroundColor: "rgba(139, 32, 53, 0.15)",
+                border: "1px solid rgba(139, 32, 53, 0.4)",
+              }}
+            >
+              <p className="text-accent-secondary mb-0 fw-semibold">
+                No pudimos cargar los productos destacados en este momento.
+              </p>
             </div>
+          )}
+
+          {isLoading ? (
+            <ItemListSkeleton count={4} />
           ) : (
             <Row className="g-4">
               {destacados.map((producto) => (

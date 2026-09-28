@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/useCartStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { Container, Row, Col } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import { db } from "@/firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { FaArrowLeft } from "react-icons/fa";
-import { Coupon } from "@/types";
+import { Coupon, Order } from "@/types";
+import { createOrderAndDiscountStock } from "@/services/orderService";
+import { saveUserCart } from "@/services/cartService";
 
 import EmptyCart from "@/components/Cart/EmptyCart";
 import CartItem from "@/components/Cart/CartItem";
@@ -15,6 +18,10 @@ import CouponSection from "@/components/Cart/CouponSection";
 import { toast } from "sonner";
 
 export default function Cart() {
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
+  const userData = useAuthStore((state) => state.userData);
+
   const cart = useCartStore((state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
   const getCartTotal = useCartStore((state) => state.getCartTotal);
@@ -29,6 +36,7 @@ export default function Cart() {
   const [couponError, setCouponError] = useState("");
   const [couponSuccess, setCouponSuccess] = useState("");
   const [loadingCoupon, setLoadingCoupon] = useState(false);
+  const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
 
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) return;
@@ -67,22 +75,76 @@ export default function Cart() {
 
   const subtotal = getCartTotal();
 
-  const handleCheckout = () => {
-    if (appliedCoupon) {
-      toast.success(
-        `¡Gracias por su compra! Se ha aplicado un descuento del ${appliedCoupon.descuento}% con el cupón "${appliedCoupon.codigo}". Total a abonar: $${finalTotal.toLocaleString("es-AR")}`,
-      );
-    } else {
-      toast.success("¡Gracias por su compra!");
+  const handleCheckout = async () => {
+    if (!user) {
+      toast.error("Debes iniciar sesión para completar la compra.");
+      navigate("/auth");
+      return;
     }
-    clearCart();
-    setCouponCode("");
-    setCouponSuccess("");
-    setCouponError("");
+
+    if (cart.length === 0) {
+      toast.error("El carrito está vacío.");
+      return;
+    }
+
+    try {
+      setIsProcessingCheckout(true);
+
+      const orderPayload: Omit<Order, "id"> = {
+        userId: user.uid,
+        clienteEmail: user.email || userData.email || "",
+        clienteNombre: userData.fullName || userData.userName || "Cliente",
+        items: cart.map((item) => ({
+          id: item.id,
+          titulo: item.titulo,
+          precio: item.precio,
+          quantity: item.quantity,
+          imagen: item.imagen,
+          autor: item.autor,
+        })),
+        subtotal,
+        descuento: discountAmount,
+        total: finalTotal,
+        cupon: appliedCoupon,
+        estado: "completada",
+      };
+
+      // 1. Ejecutar transacción de Firestore: verificar stock, descontar y crear orden
+      const orderId = await createOrderAndDiscountStock(orderPayload);
+
+      // 2. Limpiar carrito en local y en la cuenta de Firebase
+      clearCart();
+      await saveUserCart(user.uid, [], null);
+
+      toast.success("¡Compra realizada con éxito!");
+
+      // 3. Redirigir a la pantalla de resumen
+      navigate("/checkout/success", {
+        state: {
+          orderId,
+          orderData: { ...orderPayload, id: orderId },
+        },
+      });
+    } catch (error: any) {
+      console.error("Error procesando compra:", error);
+      const message =
+        error?.message || "Ocurrió un error inesperado al procesar la compra.";
+      toast.error(message);
+      navigate("/checkout/failure", {
+        state: {
+          error: message,
+        },
+      });
+    } finally {
+      setIsProcessingCheckout(false);
+    }
   };
 
-  const handleClearCart = () => {
+  const handleClearCart = async () => {
     clearCart();
+    if (user?.uid) {
+      await saveUserCart(user.uid, [], null);
+    }
     setCouponCode("");
     setCouponSuccess("");
     setCouponError("");
@@ -128,6 +190,7 @@ export default function Cart() {
               discountAmount={discountAmount}
               finalTotal={finalTotal}
               quantity={getCartQuantity()}
+              loading={isProcessingCheckout}
               onCheckout={handleCheckout}
               onClearCart={handleClearCart}
             >

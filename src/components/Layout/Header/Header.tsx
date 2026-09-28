@@ -1,6 +1,6 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import CartWidget from "@/components/Layout/Header/CartWidget";
-import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaUser, FaSignInAlt } from "react-icons/fa";
 import styles from "./Header.module.css";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useUIStore } from "@/stores/useUIStore";
@@ -64,23 +64,24 @@ export default function Header() {
 
         {/* ICONOS DERECHA */}
         <div className="d-flex align-items-center gap-3">
-          <Link
-            to="/auth"
-            className="text-text-secondary d-none d-md-inline"
-            style={{ fontSize: "1.3rem" }}
-          >
-            {user ? (
-              <FaUser
-                className={`${styles.navIcons} ${isUserActive ? "active" : ""}`}
-              />
-            ) : (
-              <button
-                className={`${styles.loginBtn} ${isUserActive ? "active" : ""}`}
-              >
-                Iniciar Sesión
-              </button>
-            )}
-          </Link>
+          {user ? (
+            <Link
+              to="/dashboard"
+              className={`${styles.userProfileIcon} ${isUserActive ? "active" : ""} d-none d-md-inline-flex`}
+              title="Mi Cuenta"
+              aria-label="Mi Cuenta"
+            >
+              <FaUser />
+            </Link>
+          ) : (
+            <Link
+              to="/auth"
+              className={`${styles.loginLinkBtn} ${isUserActive ? "active" : ""} d-none d-md-inline-flex`}
+            >
+              <FaSignInAlt style={{ fontSize: "0.85rem" }} />
+              <span>Iniciar Sesión</span>
+            </Link>
+          )}
           <CartWidget />
         </div>
       </div>

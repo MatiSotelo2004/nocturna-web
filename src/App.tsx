@@ -8,6 +8,8 @@ import {
 } from "@/components/ProtectedRoutes";
 import { useAuthStore } from "@/stores/useAuthStore";
 
+import { useCartSync } from "@/hooks/useCartSync";
+
 // PAGES
 import Home from "@/pages/Home/Home";
 import Products from "@/pages/Products/Products";
@@ -19,9 +21,15 @@ import Dashboard from "@/pages/Dashboard/Dashboard";
 import Admin from "@/pages/Admin/Admin";
 import NotFound from "@/pages/NotFound/NotFound";
 import GestionDeCupones from "@/pages/GestionDeCupones/GestionDeCupones";
+import CheckoutSuccess from "@/pages/Checkout/CheckoutSuccess";
+import CheckoutFailure from "@/pages/Checkout/CheckoutFailure";
 
 function App() {
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
+
+  // Sincroniza el carrito automáticamente con la cuenta del usuario en Firestore
+  useCartSync();
+
   useEffect(() => {
     const unsubscribe = initializeAuth();
     return () => unsubscribe();
@@ -35,6 +43,9 @@ function App() {
         <Route path="/sobre-nosotros" element={<AboutUs />} />
         <Route path="/producto/:id" element={<ProductDetail />} />
         <Route path="/carrito" element={<Cart />} />
+        <Route path="/checkout/success" element={<CheckoutSuccess />} />
+        <Route path="/checkout/success/:orderId" element={<CheckoutSuccess />} />
+        <Route path="/checkout/failure" element={<CheckoutFailure />} />
 
         {/* SI ESTA LOGUEADO */}
         <Route element={<RedirectIfLoggedIn />}>

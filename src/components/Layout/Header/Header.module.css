@@ -22,17 +22,50 @@
   color: var(--accent-gold) !important;
 }
 
-.loginBtn{
-  color: var(--text-muted);
-  background-color: transparent;
-  border-style:solid;
-  border-color: var(--text-muted);
-  font-size: 1rem;
-  border-radius: 0.2rem;
-  transition: all 300ms;
+.loginLinkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-gold);
+  background-color: rgba(201, 168, 76, 0.05);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 30px;
+  padding: 6px 18px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.3px;
 }
-.loginBtn:hover,
-.loginBtn:global(.active) {
-  color:var(--accent-gold) !important;
-  border-color: var(--accent-gold) !important;
+
+.loginLinkBtn:hover,
+.loginLinkBtn:global(.active) {
+  background-color: var(--accent-gold);
+  color: #0D0D0F !important;
+  border-color: var(--accent-gold);
+  box-shadow: 0 4px 15px rgba(201, 168, 76, 0.3);
+  transform: translateY(-1px);
+}
+
+.userProfileIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(26, 26, 31, 0.9);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  color: var(--accent-gold);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.userProfileIcon:hover,
+.userProfileIcon:global(.active) {
+  background-color: var(--accent-gold);
+  color: #0D0D0F !important;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.4);
 }

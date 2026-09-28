@@ -22,4 +22,28 @@ export interface CartItem extends Product {
   quantity: number;
 }
 
+export interface OrderItem {
+  id: string;
+  titulo: string;
+  precio: number;
+  quantity: number;
+  imagen: string;
+  autor: string;
+}
+
+export interface Order {
+  id?: string;
+  userId?: string;
+  clienteEmail: string;
+  clienteNombre: string;
+  items: OrderItem[];
+  subtotal: number;
+  descuento: number;
+  total: number;
+  cupon: Coupon | null;
+  estado: "completada" | "cancelada";
+  createdAt?: any;
+}
+
+
 

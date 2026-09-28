@@ -4,6 +4,8 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import styles from "./AuthContainer.module.css";
 import { useState } from "react";
 
+import { toast } from "sonner";
+
 interface LoginFormProps {
   onSwitchToRegister: () => void;
 }
@@ -18,8 +20,9 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
     e.preventDefault();
     try {
       await login(dataForm.email, dataForm.pass);
+      toast.success("¡Bienvenido a Nocturna!");
     } catch (error: any) {
-      alert(`Error al iniciar sesión: ${error.message}`);
+      toast.error(`Error al iniciar sesión: ${error.message || "Credenciales inválidas"}`);
     }
   };
 

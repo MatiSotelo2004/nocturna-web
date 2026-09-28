@@ -17,6 +17,7 @@ export interface CartState {
   getFinalTotal: () => number;
   applyCoupon: (coupon: Coupon) => void;
   removeCoupon: () => void;
+  setCartFromFirebase: (cart: CartItem[], appliedCoupon: Coupon | null) => void;
 }
 
 export const useCartStore = create<CartState>()(
@@ -128,6 +129,10 @@ export const useCartStore = create<CartState>()(
 
       removeCoupon: () => {
         set({ appliedCoupon: null });
+      },
+
+      setCartFromFirebase: (cart: CartItem[], appliedCoupon: Coupon | null) => {
+        set({ cart, appliedCoupon });
       },
     }),
     {

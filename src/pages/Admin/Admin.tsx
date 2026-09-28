@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { Container, Button, Spinner } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import ProductForm from "@/components/ProductForm/ProductForm";
 import {
   getProducts,
@@ -224,12 +225,7 @@ export default function Admin() {
         </div>
 
         {loading ? (
-          <div className="d-flex justify-content-center align-items-center py-5">
-            <Spinner animation="border" variant="warning" />
-            <span className="ms-3 text-text-secondary">
-              Cargando productos...
-            </span>
-          </div>
+          <LoadingSpinner text="Cargando catálogo administrativo..." minHeight="300px" />
         ) : products.length === 0 ? (
           <div className="text-center py-5 text-text-secondary">
             No hay productos registrados en el sistema.

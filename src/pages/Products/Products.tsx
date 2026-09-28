@@ -1,6 +1,7 @@
 import { Container, Row, Col, Button, Spinner, Alert } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import ItemList from "@/components/ItemList/ItemList";
+import ItemListSkeleton from "@/components/ItemList/ItemListSkeleton";
 import { useProducts } from "@/hooks/useProducts";
 import { SearchBar } from "@/components/Products/SearchBar";
 
@@ -18,30 +19,6 @@ export default function Products() {
     verMenos,
   } = useProducts();
 
-  if (cargando) {
-    return (
-      <Container
-        className="d-flex flex-column justify-content-center align-items-center"
-        style={{ height: "50vh" }}
-      >
-        <Spinner animation="border" variant="warning" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
-        <p className="mt-3 text-text-secondary small">
-          Cargando productos, por favor espere...
-        </p>
-      </Container>
-    );
-  }
-
-  if (error) {
-    return (
-      <Container className="py-5 text-center text-text-secondary">
-        <p className="h5 text-danger">Error: {error}</p>
-      </Container>
-    );
-  }
-
   return (
     <section className="py-5">
       <Helmet>
@@ -57,14 +34,31 @@ export default function Products() {
           NUESTRO CATÁLOGO
         </h1>
         <p className="text-text-secondary text-center small mb-4">
-          {busqueda
-            ? `${productos.length} resultados encontrados`
-            : `${totalCargados} títulos cargados`}
+          {cargando
+            ? "Cargando catálogo..."
+            : busqueda
+              ? `${productos.length} resultados encontrados`
+              : `${totalCargados} títulos cargados`}
         </p>
 
         <SearchBar value={busqueda} onChange={setBusqueda} />
 
-        {productos.length > 0 ? (
+        {error ? (
+          <div
+            className="text-center py-4 px-3 my-4 rounded mx-auto"
+            style={{
+              maxWidth: "600px",
+              backgroundColor: "rgba(139, 32, 53, 0.15)",
+              border: "1px solid rgba(139, 32, 53, 0.4)",
+            }}
+          >
+            <p className="text-accent-secondary mb-0 fw-semibold">
+              Error al cargar los productos: {error}
+            </p>
+          </div>
+        ) : cargando ? (
+          <ItemListSkeleton count={8} />
+        ) : productos.length > 0 ? (
           <ItemList productos={productos} />
         ) : (
           <div className="text-center py-5">

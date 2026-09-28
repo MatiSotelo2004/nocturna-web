@@ -1,18 +1,35 @@
 import { Link } from "react-router-dom";
-import { FaShoppingBag } from "react-icons/fa";
+import { FaShoppingBag, FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
 import styles from "./Item.module.css";
 import { Product } from "@/types";
 import { useCartStore } from "@/stores/useCartStore";
 
 export default function Item(producto: Product) {
+  const cart = useCartStore((state) => state.cart);
   const addToCart = useCartStore((state) => state.addToCart);
+  const incrementCart = useCartStore((state) => state.incrementCart);
+  const substractCart = useCartStore((state) => state.substractCart);
 
+  const itemInCart = cart.find((item) => item.id === producto.id);
+  const quantityInCart = itemInCart ? itemInCart.quantity : 0;
   const isOutOfStock = producto.stock <= 0;
+  const isMaxStockReached = quantityInCart >= producto.stock;
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Evita navegar al detalle si se hace click en comprar
     if (isOutOfStock) return;
     addToCart(producto, 1);
+  };
+
+  const handleIncrement = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (isMaxStockReached) return;
+    incrementCart(producto.id);
+  };
+
+  const handleDecrement = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    substractCart(producto.id);
   };
 
   return (
@@ -101,31 +118,67 @@ export default function Item(producto: Product) {
             </span>
           </div>
 
-          <button
-            onClick={handleAddToCart}
-            className={`btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2 ${
-              isOutOfStock ? "btn-secondary disabled" : "btn-gold"
-            }`}
-            disabled={isOutOfStock}
-            style={
-              isOutOfStock
-                ? {
-                    backgroundColor: "rgba(155, 151, 168, 0.2)",
-                    color: "var(--text-muted)",
-                    border: "none",
-                  }
-                : {}
-            }
-          >
-            {isOutOfStock ? (
-              <span>Sin Stock</span>
-            ) : (
-              <>
-                <FaShoppingBag style={{ fontSize: "0.9rem" }} />
-                <span>Comprar</span>
-              </>
-            )}
-          </button>
+          {quantityInCart > 0 ? (
+            <div className={styles.quantityContainer}>
+              <button
+                type="button"
+                onClick={handleDecrement}
+                className={styles.qtyBtn}
+                title={quantityInCart === 1 ? "Eliminar del carrito" : "Quitar una unidad"}
+              >
+                {quantityInCart === 1 ? (
+                  <FaTrashAlt style={{ fontSize: "0.8rem" }} />
+                ) : (
+                  <FaMinus />
+                )}
+              </button>
+
+              <div className={styles.qtyDisplay}>
+                <span className={styles.qtyNumber}>{quantityInCart}</span>
+                <span className={styles.qtyLabel}>en carrito</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleIncrement}
+                className={styles.qtyBtn}
+                disabled={isMaxStockReached}
+                title={
+                  isMaxStockReached
+                    ? "Límite de stock alcanzado"
+                    : "Agregar otra unidad"
+                }
+              >
+                <FaPlus />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className={`btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2 ${
+                isOutOfStock ? "btn-secondary disabled" : "btn-gold"
+              }`}
+              disabled={isOutOfStock}
+              style={
+                isOutOfStock
+                  ? {
+                      backgroundColor: "rgba(155, 151, 168, 0.2)",
+                      color: "var(--text-muted)",
+                      border: "none",
+                    }
+                  : {}
+              }
+            >
+              {isOutOfStock ? (
+                <span>Sin Stock</span>
+              ) : (
+                <>
+                  <FaShoppingBag style={{ fontSize: "0.9rem" }} />
+                  <span>Comprar</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
     </div>

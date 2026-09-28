@@ -5,12 +5,13 @@ import { useState } from "react";
 import { useAuthStore } from "@/stores/useAuthStore";
 
 
+import { toast } from "sonner";
+
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
 }
 
 export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
-
   const signup = useAuthStore((state) => state.signup);
   const loading = useAuthStore((state) => state.loading);
   const [dataForm, setDataForm] = useState({
@@ -23,20 +24,21 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (dataForm.pass === dataForm.confirmPass) {
-      try {
-        await signup(
-          dataForm.email,
-          dataForm.pass,
-          dataForm.fullname,
-          dataForm.username,
-        );
-        alert("¡Cuenta creada exitosamente!");
-      } catch (error: any) {
-        alert(`Error al registrarse: ${error.message}`);
-      }
-    } else {
-      alert("Las contraseñas no coinciden");
+    if (dataForm.pass !== dataForm.confirmPass) {
+      toast.error("Las contraseñas no coinciden");
+      return;
+    }
+
+    try {
+      await signup(
+        dataForm.email,
+        dataForm.pass,
+        dataForm.fullname,
+        dataForm.username,
+      );
+      toast.success("¡Cuenta creada exitosamente! Bienvenido a Nocturna.");
+    } catch (error: any) {
+      toast.error(`Error al registrarse: ${error.message || "No se pudo crear la cuenta"}`);
     }
   };
   return (

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useCartStore } from "@/stores/useCartStore";
 
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { FaShoppingBag, FaArrowLeft } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 import { QuantitySelector } from "@/components/ProductDetail/QuantitySelector";
 import { useProductDetail } from "@/hooks/useProductDetail";
@@ -15,25 +16,35 @@ export default function ProductDetail() {
 
   if (cargando) {
     return (
-      <Container className="py-5 text-center text-text-secondary">
+      <Container className="py-5 text-center text-text-secondary transicion-pagina">
         <Helmet>
           <title>Cargando libro... | Nocturna</title>
         </Helmet>
-        <Spinner animation="border" variant="warning" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
-        <p className="mt-3">Cargando detalle del producto...</p>
+        <LoadingSpinner
+          text="Cargando detalles del libro..."
+          minHeight="50vh"
+          size="lg"
+        />
       </Container>
     );
   }
 
   if (error || !producto) {
     return (
-      <Container className="py-5 text-center text-text-secondary">
+      <Container className="py-5 text-center text-text-secondary transicion-pagina">
         <Helmet>
           <title>Error | Nocturna</title>
         </Helmet>
-        <p className="h5 text-danger mb-4">{error}</p>
+        <div
+          className="p-4 mx-auto rounded mb-4"
+          style={{
+            maxWidth: "500px",
+            backgroundColor: "rgba(139, 32, 53, 0.15)",
+            border: "1px solid rgba(139, 32, 53, 0.4)",
+          }}
+        >
+          <p className="h5 text-accent-secondary mb-0">{error || "Producto no encontrado"}</p>
+        </div>
         <Link
           to="/productos"
           className="btn btn-outline-gold d-inline-flex align-items-center gap-2"
@@ -46,9 +57,6 @@ export default function ProductDetail() {
   }
   const handleAddToCart = () => {
     addToCart(producto, cantidad);
-    alert(
-      `Agregaste ${cantidad} ${cantidad > 1 ? "copias" : "copia"} de "${producto.titulo}" al carrito.`,
-    );
   };
 
   return (
