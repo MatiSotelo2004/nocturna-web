@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
 import { getProductsPage } from "@/services/productService";
-import { useSearch } from "@/context/SearchContext";
+import { useSearchStore } from "@/stores/useSearchStore";
 import { Product } from "@/types";
 
 export function useProducts() {
   const [productos, setProductos] = useState<Product[]>([]);
-  const { busqueda, setBusqueda } = useSearch();
+  const busqueda = useSearchStore((state) => state.busqueda);
+  const setBusqueda = useSearchStore((state) => state.setBusqueda);
   const [cargando, setCargando] = useState(true);
   const [cargandoMas, setCargandoMas] = useState(false);
   const [ultimoVisible, setUltimoVisible] =

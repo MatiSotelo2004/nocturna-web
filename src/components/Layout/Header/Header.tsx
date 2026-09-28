@@ -1,9 +1,9 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import CartWidget from "@/components/Layout/Header/CartWidget";
-import { useState } from "react";
 import { FaBars, FaTimes, FaUser } from "react-icons/fa";
 import styles from "./Header.module.css";
-import { useAuth } from "@/context/AuthContext";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { useUIStore } from "@/stores/useUIStore";
 
 export default function Header() {
   const location = useLocation();
@@ -14,18 +14,19 @@ export default function Header() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `${styles.navLinkCustom} ${isActive ? "active" : ""}`;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const closeMenu = () => setIsOpen(false);
+  const isOpen = useUIStore((state) => state.isMenuOpen);
+  const toggleMenu = useUIStore((state) => state.toggleMenu);
+  const closeMenu = useUIStore((state) => state.closeMenu);
 
   //AUTH
-  const { user } = useAuth();
+  const user = useAuthStore((state) => state.user);
   return (
     <header className="bg-primary p-4 sticky-top z-3">
       {/* CONTENEDOR PRINCIPAL */}
       <div className="container-fluid d-flex justify-content-between align-items-center">
         {/* BOTON PARA ABRIR MENU (DISPOSITIVOS MOVILES) */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={toggleMenu}
           className="btn text-text-secondary d-md-none border-0 p-0"
           aria-label="Abrir menú"
           style={{ fontSize: "1.5rem" }}

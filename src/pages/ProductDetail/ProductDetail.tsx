@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/stores/useCartStore";
 
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { FaShoppingBag, FaArrowLeft } from "react-icons/fa";
@@ -11,7 +11,7 @@ import { useProductDetail } from "@/hooks/useProductDetail";
 export default function ProductDetail() {
   const { producto, cargando, error, cantidad, incrementar, decrementar } =
     useProductDetail();
-  const { addToCart } = useCart();
+  const addToCart = useCartStore((state) => state.addToCart);
 
   if (cargando) {
     return (

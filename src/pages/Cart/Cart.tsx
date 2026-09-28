@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/stores/useCartStore";
 import { Container, Row, Col } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import { db } from "@/firebase/config";
@@ -12,12 +12,20 @@ import EmptyCart from "@/components/Cart/EmptyCart";
 import CartItem from "@/components/Cart/CartItem";
 import CartSummary from "@/components/Cart/CartSummary";
 import CouponSection from "@/components/Cart/CouponSection";
+import { toast } from "sonner";
 
 export default function Cart() {
-  const { cart, clearCart, getCartTotal, getCartQuantity } = useCart();
+  const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
+  const getCartTotal = useCartStore((state) => state.getCartTotal);
+  const getCartQuantity = useCartStore((state) => state.getCartQuantity);
+  const appliedCoupon = useCartStore((state) => state.appliedCoupon);
+  const applyCoupon = useCartStore((state) => state.applyCoupon);
+  const removeCoupon = useCartStore((state) => state.removeCoupon);
+  const discountAmount = useCartStore((state) => state.getDiscountAmount());
+  const finalTotal = useCartStore((state) => state.getFinalTotal());
 
   const [couponCode, setCouponCode] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [couponError, setCouponError] = useState("");
   const [couponSuccess, setCouponSuccess] = useState("");
   const [loadingCoupon, setLoadingCoupon] = useState(false);
@@ -35,11 +43,11 @@ export default function Cart() {
       const querySnapshot = await getDocs(q);
       if (querySnapshot.empty) {
         setCouponError("El cupón ingresado no es válido.");
-        setAppliedCoupon(null);
+        removeCoupon();
       } else {
         const couponDoc = querySnapshot.docs[0];
         const couponData = { id: couponDoc.id, ...couponDoc.data() } as Coupon;
-        setAppliedCoupon(couponData);
+        applyCoupon(couponData);
         setCouponSuccess(`Cupón "${couponData.codigo}" aplicado con éxito.`);
       }
     } catch (error) {
@@ -51,33 +59,33 @@ export default function Cart() {
   };
 
   const handleRemoveCoupon = () => {
-    setAppliedCoupon(null);
+    removeCoupon();
     setCouponCode("");
     setCouponSuccess("");
     setCouponError("");
   };
 
   const subtotal = getCartTotal();
-  const discountAmount = appliedCoupon
-    ? (subtotal * Number(appliedCoupon.descuento)) / 100
-    : 0;
-  const finalTotal = subtotal - discountAmount;
 
   const handleCheckout = () => {
     if (appliedCoupon) {
-      alert(
+      toast.success(
         `¡Gracias por su compra! Se ha aplicado un descuento del ${appliedCoupon.descuento}% con el cupón "${appliedCoupon.codigo}". Total a abonar: $${finalTotal.toLocaleString("es-AR")}`,
       );
     } else {
-      alert("¡Gracias por su compra!");
+      toast.success("¡Gracias por su compra!");
     }
     clearCart();
-    handleRemoveCoupon();
+    setCouponCode("");
+    setCouponSuccess("");
+    setCouponError("");
   };
 
   const handleClearCart = () => {
     clearCart();
-    handleRemoveCoupon();
+    setCouponCode("");
+    setCouponSuccess("");
+    setCouponError("");
   };
 
   if (cart.length === 0) {

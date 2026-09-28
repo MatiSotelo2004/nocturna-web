@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { useCart } from "@/context/CartContext";
 import { FaShoppingBag } from "react-icons/fa";
 import styles from "./Item.module.css";
 import { Product } from "@/types";
+import { useCartStore } from "@/stores/useCartStore";
 
 export default function Item(producto: Product) {
-  const { addToCart } = useCart();
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const isOutOfStock = producto.stock <= 0;
 
@@ -13,7 +13,6 @@ export default function Item(producto: Product) {
     e.preventDefault(); // Evita navegar al detalle si se hace click en comprar
     if (isOutOfStock) return;
     addToCart(producto, 1);
-    alert(`Agregaste 1 copia de "${producto.titulo}" al carrito.`);
   };
 
   return (

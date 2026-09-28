@@ -1,11 +1,10 @@
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/stores/useCartStore";
 import { Link, useLocation } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import styles from "./Header.module.css";
 
 export default function CartWidget() {
-  const { getCartQuantity } = useCart();
-  const cantidad = getCartQuantity();
+  const cantidad = useCartStore((state) => state.getCartQuantity());
   const location = useLocation();
   const isActive = location.pathname === "/carrito";
 

@@ -2,14 +2,17 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import styles from "./AuthContainer.module.css";
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useAuthStore } from "@/stores/useAuthStore";
+
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
 }
 
 export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
-  const { signup, loading } = useAuth();
+
+  const signup = useAuthStore((state) => state.signup);
+  const loading = useAuthStore((state) => state.loading);
   const [dataForm, setDataForm] = useState({
     fullname: "",
     email: "",

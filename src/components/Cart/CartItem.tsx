@@ -1,10 +1,13 @@
 import { Card, Row, Col } from "react-bootstrap";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/stores/useCartStore";
 import styles from "./CartItem.module.css";
 import { FaMinusCircle, FaPlusCircle, FaTrash } from "react-icons/fa";
 
 export default function CartItem() {
-  const { cart, substractCart, incrementCart, removeFromCart } = useCart();
+  const cart = useCartStore((state) => state.cart);
+  const substractCart = useCartStore((state) => state.substractCart);
+  const incrementCart = useCartStore((state) => state.incrementCart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
 
   return (
     <>

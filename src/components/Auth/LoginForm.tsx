@@ -1,6 +1,6 @@
 import { Form, Button, Spinner } from "react-bootstrap";
 import { FaSignInAlt } from "react-icons/fa";
-import { useAuth } from "@/context/AuthContext";
+import { useAuthStore } from "@/stores/useAuthStore";
 import styles from "./AuthContainer.module.css";
 import { useState } from "react";
 
@@ -8,8 +8,8 @@ interface LoginFormProps {
   onSwitchToRegister: () => void;
 }
 export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
-  const { login, loading } = useAuth();
-
+  const login = useAuthStore((state) => state.login);
+  const loading = useAuthStore((state) => state.loading);
   const [dataForm, setDataForm] = useState({
     email: "",
     pass: "",

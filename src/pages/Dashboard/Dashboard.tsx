@@ -1,10 +1,11 @@
-import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function Dashboard() {
-  const { logout, userData } = useAuth();
+  const logout = useAuthStore((state) => state.logout);
+  const userData = useAuthStore((state) => state.userData);
 
   const getInitials = (name: string) => {
     if (!name) return "?";

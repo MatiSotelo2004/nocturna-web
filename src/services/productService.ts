@@ -12,13 +12,14 @@ import {
   limit,
   startAfter,
   QueryConstraint,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import { Product } from "@/types";
 
 const PRODUCTS_COLLECTION = "productos";
+const FEAT_PRODUCTS_QUANTITY = 4;
 const PAGE_SIZE = 4;
-
 
 export interface PaginatedProductsResponse {
   productos: Product[];
@@ -105,7 +106,16 @@ export const getProductById = async (id: string): Promise<Product | null> => {
   }
 };
 
-
+export const getFeatureProducts = async () => {
+  const ref = collection(db, PRODUCTS_COLLECTION);
+  const featquery = query(
+    ref,
+    orderBy("calificacion", "desc"),
+    limit(FEAT_PRODUCTS_QUANTITY),
+  );
+  const resp = await getDocs(featquery);
+  return resp.docs.map(mapDocumentToProducts);
+};
 
 export const createProduct = async (
   productData: Omit<Product, "id">,

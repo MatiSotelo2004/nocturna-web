@@ -1,57 +1,20 @@
-import { useState, useEffect } from "react";
 import Item from "@/components/Item/Item";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import { getDocs, collection, query, orderBy, limit } from "firebase/firestore";
-import { db } from "@/firebase/config";
 import { Helmet } from "react-helmet-async";
 import HeroSection from "@/components/Home/HeroSection";
 import WhyNocturna from "@/components/Home/WhyNocturna";
-import { Product } from "@/types";
+import { useQuery } from "@tanstack/react-query";
+import { getFeatureProducts } from "@/services/productService";
 
 export default function Home() {
-  const [error, setError] = useState(null);
-  const [cargando, setCargando] = useState(true);
-  const [destacados, setDestacados] = useState<Product[]>([]);
-  const PROD_DESTACADOS = 4;
-
-  useEffect(() => {
-    const getDestacados = async () => {
-      setCargando(true);
-      try {
-        const prodDB = collection(db, "productos");
-        const prodQuery = query(
-          prodDB,
-          orderBy("calificacion", "desc"),
-          limit(PROD_DESTACADOS),
-        );
-        const resp = await getDocs(prodQuery);
-
-        const docs = resp.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        })) as Product[];
-        setDestacados(docs);
-      } catch (e: any) {
-        setError(e.message);
-        console.error(e.message);
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    getDestacados();
-  }, []);
-
-  if (error) {
-    return (
-      <Container className="py-5 text-center">
-        <Helmet>
-          <title>Error | Nocturna</title>
-        </Helmet>
-        <p className="text-danger h5">Error: {error}</p>
-      </Container>
-    );
-  }
+  const {
+    data: destacados = [],
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["feature"],
+    queryFn: () => getFeatureProducts(),
+  });
 
   return (
     <>
@@ -79,8 +42,12 @@ export default function Home() {
               <h2 className="font-serif h2 text-light">Los más valorados</h2>
             </div>
           </div>
-
-          {cargando ? (
+          {isError && (
+            <h3 style={{ color: "red", textAlign: "center" }}>
+              Error al cargar los productos
+            </h3>
+          )}
+          {isLoading ? (
             <div className="text-center py-5">
               <Spinner animation="border" variant="warning" role="status">
                 <span className="visually-hidden">Cargando...</span>

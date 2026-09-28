@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, SubmitEvent } from "react";
 
 interface NewCouponType {
   codigo: string;
@@ -6,7 +6,7 @@ interface NewCouponType {
 }
 
 interface CouponFormProps {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: SubmitEvent) => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onCancel: () => void;
   submitting: boolean;

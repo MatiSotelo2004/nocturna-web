@@ -1,9 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { Spinner } from "react-bootstrap";
 
 export const PrivateRoutes = () => {
-  const { user, loading } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const loading = useAuthStore((state) => state.loading);
 
   if (loading) {
     return (
@@ -22,7 +23,9 @@ export const PrivateRoutes = () => {
 };
 
 export const AdminRoutes = () => {
-  const { user, loading, userData } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const loading = useAuthStore((state) => state.loading);
+  const userData = useAuthStore((state) => state.userData);
   if (loading) {
     return (
       <div
@@ -39,7 +42,8 @@ export const AdminRoutes = () => {
 };
 
 export const RedirectIfLoggedIn = () => {
-  const { user, loading } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const loading = useAuthStore((state) => state.loading);
   if (loading) {
     return (
       <div

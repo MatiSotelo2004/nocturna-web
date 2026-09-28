@@ -28,6 +28,5 @@ dist-ssr
 .env.local
 .env.development.local
 .env.production.local
-componetizacion.md
-plan_migracion_pern.md
-tecnologias_sugeridas.md
+
+private
